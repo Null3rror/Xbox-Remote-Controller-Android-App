@@ -1,39 +1,33 @@
-#include <Windows.h>
+#include "VirtualKey.h"
+#include "VirtualMouse.h"
 
-void PressKey(char keyName) {
-    short key = VkKeyScanA(keyName);
-    unsigned int mappedKey = MapVirtualKeyA(LOBYTE(key), 0);;
-
-    INPUT input = {0};
-
-    input.type = INPUT_KEYBOARD;
-    input.ki.dwFlags = KEYEVENTF_SCANCODE;
-    input.ki.wScan   = mappedKey;
-
-    SendInput(1, &input, sizeof(input));
-    Sleep(10);
-
-    input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
-    SendInput(1, &input, sizeof(input));
-}
 
 int main() {
+    VirtualKey vKey(10);
+    VirtualMouse vMouse(500);
     while (true) {
         if (GetAsyncKeyState(VK_NUMPAD0)) {
             break;
         }
         if (GetAsyncKeyState(VK_NUMPAD8)) {
-            PressKey('w');
+            vKey.PressKey('w');
         }
         if (GetAsyncKeyState(VK_NUMPAD4)) {
-            PressKey('a');
+            vKey.PressKey('a');
         }
         if (GetAsyncKeyState(VK_NUMPAD2)) {
-            PressKey('s');
+            vKey.PressKey('s');
         }
         if (GetAsyncKeyState(VK_NUMPAD6)) {
-            PressKey('d');
+            vKey.PressKey('d');
         }
+        if (GetAsyncKeyState(VK_SPACE)) {
+            vMouse.PressMouse(true);
+        }
+        if (GetAsyncKeyState(VK_LSHIFT)) {
+            vMouse.MoveCursor(5, 0 );
+        }
+
     }
     return 0;
 }
