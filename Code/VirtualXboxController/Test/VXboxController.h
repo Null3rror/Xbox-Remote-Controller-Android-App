@@ -2,6 +2,8 @@
 #define VXBOXINTERFACE_VXBOXCONTROLLER_H
 
 #include <utility>
+#include "windows.h"
+#include "stdafx.h"
 #include "DPad.h"
 #include "..\API\vXboxInterface.h"
 
@@ -21,11 +23,11 @@ public:
     static bool IsSlotOccupied(UINT slotIndex);
 
     void PlugIn();
-    BOOL IsPlugedIn();
+    BOOL IsPluggedIn() const;
     void UnPlug();
     void UnPlugForce();
 
-    UINT GetUserIndex();
+    UINT GetUserIndex() const;
 
     void SetButtonA(bool isPressed);
     void SetButtonB(bool isPressed);
@@ -38,8 +40,8 @@ public:
     void SetButtonStart(bool isPressed);
     void SetButtonBack(bool isPressed);
 
-    void SetTriggerL(byte value);
-    void SetTriggerR(byte value);
+    void SetTriggerL(BYTE value);
+    void SetTriggerR(BYTE value);
 
     void SetAxisX(short value);
     void SetAxisY(short value);
@@ -58,7 +60,7 @@ private:
     UINT userIndex;
 
     bool a, b, x, y, lb, rb, lThumb, rThumb, start, back;
-    byte lTrigger, rTrigger;
+    BYTE lTrigger, rTrigger;
     std::pair<short, short> lAxis, rAxis;
     DPad dPad;
 
