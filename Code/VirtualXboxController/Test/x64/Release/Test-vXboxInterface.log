@@ -1,0 +1,7 @@
+﻿  stdafx.cpp
+  Test.cpp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 4 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Test-vXboxInterface.vcxproj -> D:\Edu\Computer Scinece and Engineering\CPS\vXbox\vXboxInterface\x64\Release\Test.exe
