@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AndroidClient</string>
+    <string name="IP">192.168.1.103</string>
+    <string name="Port">100</string>
+    <string-array name="user_arrays">
+        <item>user1</item>
+        <item>user2</item>
+        <item>user3</item>
+        <item>user4</item>
+    </string-array>
+</resources>

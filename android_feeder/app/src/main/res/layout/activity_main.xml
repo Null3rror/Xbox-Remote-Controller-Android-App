@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width = "match_parent"
+    android:layout_height = "match_parent"
+    android:layout_margin = "16dp"
+    tools:context = ".MainActivity">
+
+    <EditText
+        android:id="@+id/etIP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="IP-Address"
+        android:inputType="text"
+        android:text="@string/IP" />
+
+    <EditText
+        android:id="@+id/etPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etIP"
+        android:hint="Port No"
+        android:inputType="number"
+        android:text="@string/Port" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etPort"
+        android:layout_marginTop="16dp"
+        android:entries="@array/user_arrays" />
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner1"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:text="Connect To Server" />
+
+    <TextView
+        android:id="@+id/tvMessages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnConnect"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="32dp"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+</RelativeLayout>
