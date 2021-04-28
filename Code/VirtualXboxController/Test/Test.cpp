@@ -31,7 +31,7 @@ int main()
 
 	controller.PlugIn();
 
-
+	
 	printf("\n");
 	controller.lTrigger->SetValue(0);
 	controller.rTrigger->SetValue(0);
@@ -53,22 +53,22 @@ int main()
 		switch (T)
 		{
 		case 0:
-			controller.SetDPadUp();
+			controller.dpad->SetValueUp();
 			break;
 		case 20:
-			controller.SetDPadDown();
+			controller.dpad->SetValueDown();
 			controller.b->SetValue(FALSE);
 			break;
 		case 40:
-			controller.SetDPadLeft();
+			controller.dpad->SetValueLeft();
 			break;
 		case 60:
-			controller.SetDPadRight();
+			controller.dpad->SetValueRight();
 			break;
 		case 80:
 			break;
 		case 99:
-			controller.SetDPadOff();
+			controller.dpad->SetValueOff();
 			break;
 		}
 

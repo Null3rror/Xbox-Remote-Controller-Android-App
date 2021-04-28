@@ -23,7 +23,7 @@ VXboxController::VXboxController() {
     lAxis = new VXboxAxis(SetAxisX, SetAxisY, userIndex);
     rAxis = new VXboxAxis(SetAxisRx, SetAxisRy, userIndex);
 
-    dPad = {false, false, false, false};
+    dpad = new VXboxDpad(SetDpadUp, SetDpadDown, SetDpadLeft, SetDpadRight, SetDpadOff, userIndex);
     vibration = std::make_pair(0, 0);
 }
 
@@ -46,6 +46,8 @@ VXboxController::~VXboxController() {
     
     delete lAxis;
     delete rAxis;
+
+    delete dpad;
 }
 
 bool VXboxController::IsVBusExists() {
@@ -99,37 +101,6 @@ UINT VXboxController::GetUserIndex() const{
     return userIndex;
 }
 
-
-
-
-
-void VXboxController::SetDPadUp() {
-    dPad.up = true;
-    ::SetDpadUp(userIndex);
-}
-
-void VXboxController::SetDPadDown() {
-    dPad.down = true;
-    ::SetDpadDown(userIndex);
-}
-
-void VXboxController::SetDPadLeft() {
-    dPad.left = true;
-    ::SetDpadLeft(userIndex);
-}
-
-void VXboxController::SetDPadRight() {
-    dPad.right = true;
-    ::SetDpadRight(userIndex);
-}
-
-void VXboxController::SetDPadOff() {
-    dPad.up = false;
-    dPad.down = false;
-    dPad.left = false;
-    dPad.right = false;
-    ::SetDpadOff(userIndex);
-}
 
 std::pair<WORD, WORD> VXboxController::GetVibration() {
     XINPUT_VIBRATION vib;

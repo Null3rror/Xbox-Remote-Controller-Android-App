@@ -4,11 +4,11 @@
 #include <utility>
 #include "windows.h"
 #include "stdafx.h"
-#include "DPad.h"
 #include "..\API\vXboxInterface.h"
 #include "VXboxButton.h"
 #include "VXboxTrigger.h"
 #include "VXboxAxis.h"
+#include "VXboxDpad.h"
 
 
 #pragma comment(lib, "vXboxInterface")
@@ -51,19 +51,12 @@ public:
     VXboxAxis* lAxis;
     VXboxAxis* rAxis;
 
-    void SetDPadUp();
-    void SetDPadDown();
-    void SetDPadLeft();
-    void SetDPadRight();
-    void SetDPadOff();
+    VXboxDpad* dpad;
 
     std::pair<WORD, WORD> GetVibration();
 
 private:
     UINT userIndex;
-
-    
-    DPad dPad;
 
     std::pair<WORD, WORD> vibration;
 };

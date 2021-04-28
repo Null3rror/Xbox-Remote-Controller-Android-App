@@ -295,6 +295,7 @@
     <ClInclude Include="VXboxAxis.h" />
     <ClInclude Include="VXboxButton.h" />
     <ClInclude Include="VXboxController.h" />
+    <ClInclude Include="VXboxDpad.h" />
     <ClInclude Include="VXboxTrigger.h" />
   </ItemGroup>
   <ItemGroup>
@@ -312,6 +313,7 @@
     <ClCompile Include="VXboxAxis.cpp" />
     <ClCompile Include="VXboxButtom.cpp" />
     <ClCompile Include="VXboxController.cpp" />
+    <ClCompile Include="VXboxDpad.cpp" />
     <ClCompile Include="VXboxTrigger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
