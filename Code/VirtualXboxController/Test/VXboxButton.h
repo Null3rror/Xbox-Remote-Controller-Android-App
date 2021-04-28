@@ -6,7 +6,7 @@ class VXboxButton {
 public:
 	VXboxButton(BOOL (*setter)(UINT, BOOL));
 	VXboxButton(BOOL (*setter)(UINT, BOOL), UINT userIndex);
-	bool GetValue();
+	bool GetValue() const;
 	bool SetValue(bool val);
 	void SetUserIndex(UINT userIndex);
 

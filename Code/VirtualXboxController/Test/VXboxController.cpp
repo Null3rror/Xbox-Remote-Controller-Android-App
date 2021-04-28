@@ -20,8 +20,8 @@ VXboxController::VXboxController() {
     lTrigger = new VXboxTrigger(SetTriggerL, userIndex);
     rTrigger = new VXboxTrigger(SetTriggerR, userIndex);
 
-    lAxis = std::make_pair(0, 0);
-    rAxis = std::make_pair(0, 0);
+    lAxis = new VXboxAxis(SetAxisX, SetAxisY, userIndex);
+    rAxis = new VXboxAxis(SetAxisRx, SetAxisRy, userIndex);
 
     dPad = {false, false, false, false};
     vibration = std::make_pair(0, 0);
@@ -44,6 +44,8 @@ VXboxController::~VXboxController() {
     delete lTrigger;
     delete rTrigger;
     
+    delete lAxis;
+    delete rAxis;
 }
 
 bool VXboxController::IsVBusExists() {
@@ -99,25 +101,7 @@ UINT VXboxController::GetUserIndex() const{
 
 
 
-void VXboxController::SetAxisX(short value) {
-    lAxis.first = value;
-    ::SetAxisX(userIndex, value);
-}
 
-void VXboxController::SetAxisY(short value) {
-    lAxis.second = value;
-    ::SetAxisY(userIndex, value);
-}
-
-void VXboxController::SetAxisRX(short value) {
-    rAxis.first = value;
-    SetAxisRx(userIndex, value);
-}
-
-void VXboxController::SetAxisRY(short value) {
-    rAxis.second = value;
-    SetAxisRy(userIndex, value);
-}
 
 void VXboxController::SetDPadUp() {
     dPad.up = true;

@@ -9,7 +9,7 @@ VXboxButton::VXboxButton(BOOL(*setter)(UINT, BOOL), UINT userIndex) : setterPtr(
 
 }
 
-bool VXboxButton::GetValue() {
+bool VXboxButton::GetValue() const {
 	return value;
 }
 

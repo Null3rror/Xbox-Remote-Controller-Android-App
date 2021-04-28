@@ -8,6 +8,7 @@
 #include "..\API\vXboxInterface.h"
 #include "VXboxButton.h"
 #include "VXboxTrigger.h"
+#include "VXboxAxis.h"
 
 
 #pragma comment(lib, "vXboxInterface")
@@ -47,10 +48,8 @@ public:
     VXboxTrigger* lTrigger;
     VXboxTrigger* rTrigger;
 
-    void SetAxisX(short value);
-    void SetAxisY(short value);
-    void SetAxisRX(short value);
-    void SetAxisRY(short value);
+    VXboxAxis* lAxis;
+    VXboxAxis* rAxis;
 
     void SetDPadUp();
     void SetDPadDown();
@@ -63,7 +62,7 @@ public:
 private:
     UINT userIndex;
 
-    std::pair<short, short> lAxis, rAxis;
+    
     DPad dPad;
 
     std::pair<WORD, WORD> vibration;

@@ -5,11 +5,11 @@ VXboxTrigger::VXboxTrigger(BOOL(*setter)(UINT, BYTE)) : VXboxTrigger(setter, 0) 
 
 }
 
-VXboxTrigger::VXboxTrigger(BOOL(*setter)(UINT, BYTE), UINT userIndex) : setterPtr(setter), value(false), userIndex(userIndex) {
+VXboxTrigger::VXboxTrigger(BOOL(*setter)(UINT, BYTE), UINT userIndex) : setterPtr(setter), value(0), userIndex(userIndex) {
 
 }
 
-BYTE VXboxTrigger::GetValue() {
+BYTE VXboxTrigger::GetValue() const {
 	return value;
 }
 

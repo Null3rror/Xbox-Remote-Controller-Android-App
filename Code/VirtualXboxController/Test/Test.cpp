@@ -38,10 +38,10 @@ int main()
 
 	for (int T = 0; T < 1000; T++)
 	{
-		controller.SetAxisX(T * 300);
-		controller.SetAxisY(T * -300);
-		controller.SetAxisRX(T * 100);
-		controller.SetAxisRY(T * -100);
+		controller.lAxis->SetValueX(T * 300);
+		controller.lAxis->SetValueY(T * -300);
+		controller.rAxis->SetValueX(T * 100);
+		controller.rAxis->SetValueY(T * -100);
 		if (T % 2) {
 			controller.a->SetValue(true);
 			

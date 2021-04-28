@@ -6,7 +6,7 @@ class VXboxTrigger {
 public:
 	VXboxTrigger(BOOL(*setter)(UINT, BYTE));
 	VXboxTrigger(BOOL(*setter)(UINT, BYTE), UINT userIndex);
-	BYTE GetValue();
+	BYTE GetValue() const;
 	bool SetValue(BYTE val);
 	void SetUserIndex(UINT userIndex);
 
