@@ -17,8 +17,8 @@ VXboxController::VXboxController() {
     start  = new VXboxButton(SetBtnStart, userIndex);
     back = new VXboxButton(SetBtnBack, userIndex);
 
-    lTrigger = 0;
-    rTrigger = 0;
+    lTrigger = new VXboxTrigger(SetTriggerL, userIndex);
+    rTrigger = new VXboxTrigger(SetTriggerR, userIndex);
 
     lAxis = std::make_pair(0, 0);
     rAxis = std::make_pair(0, 0);
@@ -28,6 +28,8 @@ VXboxController::VXboxController() {
 }
 
 VXboxController::~VXboxController() {
+    UnPlugForce();
+
     delete a;
     delete b;
     delete x;
@@ -38,7 +40,10 @@ VXboxController::~VXboxController() {
     delete rThumb;
     delete start;
     delete back;
-    UnPlugForce();
+
+    delete lTrigger;
+    delete rTrigger;
+    
 }
 
 bool VXboxController::IsVBusExists() {
@@ -93,16 +98,6 @@ UINT VXboxController::GetUserIndex() const{
 }
 
 
-
-void VXboxController::SetTriggerL(BYTE value) {
-    lTrigger = value;
-    ::SetTriggerL(userIndex, value);
-}
-
-void VXboxController::SetTriggerR(BYTE value) {
-    rTrigger = value;
-    ::SetTriggerR(userIndex, value);
-}
 
 void VXboxController::SetAxisX(short value) {
     lAxis.first = value;

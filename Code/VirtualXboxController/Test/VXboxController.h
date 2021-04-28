@@ -7,6 +7,7 @@
 #include "DPad.h"
 #include "..\API\vXboxInterface.h"
 #include "VXboxButton.h"
+#include "VXboxTrigger.h"
 
 
 #pragma comment(lib, "vXboxInterface")
@@ -43,8 +44,8 @@ public:
     VXboxButton* start;
     VXboxButton* back;
 
-    void SetTriggerL(BYTE value);
-    void SetTriggerR(BYTE value);
+    VXboxTrigger* lTrigger;
+    VXboxTrigger* rTrigger;
 
     void SetAxisX(short value);
     void SetAxisY(short value);
@@ -62,8 +63,6 @@ public:
 private:
     UINT userIndex;
 
-
-    BYTE lTrigger, rTrigger;
     std::pair<short, short> lAxis, rAxis;
     DPad dPad;
 

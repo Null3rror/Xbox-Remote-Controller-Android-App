@@ -33,8 +33,8 @@ int main()
 
 
 	printf("\n");
-	controller.SetTriggerL(0);
-	controller.SetTriggerR(0);
+	controller.lTrigger->SetValue(0);
+	controller.rTrigger->SetValue(0);
 
 	for (int T = 0; T < 1000; T++)
 	{
@@ -43,11 +43,10 @@ int main()
 		controller.SetAxisRX(T * 100);
 		controller.SetAxisRY(T * -100);
 		if (T % 2) {
-			//controller.SetButtonA(TRUE);
 			controller.a->SetValue(true);
+			
 		}
 		else {
-			//controller.SetButtonA(FALSE);
 			controller.a->SetValue(false);
 		}
 
@@ -73,13 +72,14 @@ int main()
 			break;
 		}
 
-		controller.SetTriggerL(2 * T);
-		controller.SetTriggerR(57 + (2 * T));
+		controller.lTrigger->SetValue(2 * T);
+		controller.rTrigger->SetValue(57 + (2 * T));
 		printf("In loop %d\n", T);
 		Sleep(1000);
 	}
-	controller.SetTriggerL(255);
-	controller.SetTriggerR(255);
+	controller.lTrigger->SetValue(255);
+	controller.rTrigger->SetValue(255);
+	
 
 	printf("Press any key to detect device feedback \n");
 	getchar();

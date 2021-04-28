@@ -294,6 +294,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="VXboxButton.h" />
     <ClInclude Include="VXboxController.h" />
+    <ClInclude Include="VXboxTrigger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -309,6 +310,7 @@
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="VXboxButtom.cpp" />
     <ClCompile Include="VXboxController.cpp" />
+    <ClCompile Include="VXboxTrigger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
