@@ -3,17 +3,19 @@
 
 
 VXboxController::VXboxController() {
-    userIndex = 0;
-    a = false;
-    b = false;
-    x = false;
-    y = false;
-    lb = false;
-    rb = false;
-    lThumb = false;
-    rThumb = false;
-    start  = false;
-    back = false;
+    PlugIn();
+
+    if (!IsPluggedIn()) return;
+    a = new VXboxButton(SetBtnA, userIndex);
+    b = new VXboxButton(SetBtnB, userIndex);
+    x = new VXboxButton(SetBtnX, userIndex);
+    y = new VXboxButton(SetBtnY, userIndex);
+    lb = new VXboxButton(SetBtnLB, userIndex);
+    rb = new VXboxButton(SetBtnRB, userIndex);
+    lThumb = new VXboxButton(SetBtnLT, userIndex);
+    rThumb = new VXboxButton(SetBtnRT, userIndex);
+    start  = new VXboxButton(SetBtnStart, userIndex);
+    back = new VXboxButton(SetBtnBack, userIndex);
 
     lTrigger = 0;
     rTrigger = 0;
@@ -23,6 +25,20 @@ VXboxController::VXboxController() {
 
     dPad = {false, false, false, false};
     vibration = std::make_pair(0, 0);
+}
+
+VXboxController::~VXboxController() {
+    delete a;
+    delete b;
+    delete x;
+    delete y;
+    delete lb;
+    delete rb;
+    delete lThumb; 
+    delete rThumb;
+    delete start;
+    delete back;
+    UnPlugForce();
 }
 
 bool VXboxController::IsVBusExists() {
@@ -40,6 +56,8 @@ bool VXboxController::IsSlotOccupied(UINT slotIndex) {
 }
 
 void VXboxController::PlugIn() {
+    if (IsPluggedIn()) return;
+
     for (UINT i = 1; i < 5; i++)
     {
         if (!IsSlotOccupied(i)) {
@@ -74,55 +92,7 @@ UINT VXboxController::GetUserIndex() const{
     return userIndex;
 }
 
-void VXboxController::SetButtonA(bool isPressed) {
-    a = isPressed;
-    SetBtnA(userIndex, isPressed);
-}
 
-void VXboxController::SetButtonB(bool isPressed) {
-    b = isPressed;
-    SetBtnB(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonX(bool isPressed) {
-    x = isPressed;
-    SetBtnX(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonY(bool isPressed) {
-    y = isPressed;
-    SetBtnY(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonLb(bool isPressed) {
-    lb = isPressed;
-    SetBtnLB(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonRb(bool isPressed) {
-    rb = isPressed;
-    SetBtnRB(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonLThumb(bool isPressed) {
-    lThumb = isPressed;
-    SetBtnLT(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonRThumb(bool isPressed) {
-    rThumb = isPressed;
-    SetBtnRT(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonStart(bool isPressed) {
-    start = isPressed;
-    SetBtnStart(userIndex, isPressed);
-}
-
-void VXboxController::SetButtonBack(bool isPressed) {
-    back = isPressed;
-    SetBtnBack(userIndex, back);
-}
 
 void VXboxController::SetTriggerL(BYTE value) {
     lTrigger = value;

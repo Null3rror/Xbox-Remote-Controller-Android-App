@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "DPad.h"
 #include "..\API\vXboxInterface.h"
+#include "VXboxButton.h"
 
 
 #pragma comment(lib, "vXboxInterface")
@@ -17,6 +18,8 @@
 class VXboxController {
 public:
     VXboxController();
+    ~VXboxController();
+
 
     static bool IsVBusExists();
     static UINT GetNumOfEmptyBusSlots();
@@ -29,16 +32,16 @@ public:
 
     UINT GetUserIndex() const;
 
-    void SetButtonA(bool isPressed);
-    void SetButtonB(bool isPressed);
-    void SetButtonX(bool isPressed);
-    void SetButtonY(bool isPressed);
-    void SetButtonLb(bool isPressed);
-    void SetButtonRb(bool isPressed);
-    void SetButtonLThumb(bool isPressed);
-    void SetButtonRThumb(bool isPressed);
-    void SetButtonStart(bool isPressed);
-    void SetButtonBack(bool isPressed);
+    VXboxButton* a;
+    VXboxButton* b;
+    VXboxButton* x;
+    VXboxButton* y;
+    VXboxButton* lb;
+    VXboxButton* rb;
+    VXboxButton* lThumb;
+    VXboxButton* rThumb;
+    VXboxButton* start;
+    VXboxButton* back;
 
     void SetTriggerL(BYTE value);
     void SetTriggerR(BYTE value);
@@ -59,7 +62,7 @@ public:
 private:
     UINT userIndex;
 
-    bool a, b, x, y, lb, rb, lThumb, rThumb, start, back;
+
     BYTE lTrigger, rTrigger;
     std::pair<short, short> lAxis, rAxis;
     DPad dPad;

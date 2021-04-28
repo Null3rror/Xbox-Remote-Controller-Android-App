@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include "VXboxController.h"
+#include "VXboxButton.h"
 
 int main()
 {
 
 	VXboxController controller;
-
+	//VXboxButton a(SetBtnA, 1);
 	// Test if bus exists
 	BOOL bus = VXboxController::IsVBusExists();
 	if (bus)
@@ -42,10 +43,12 @@ int main()
 		controller.SetAxisRX(T * 100);
 		controller.SetAxisRY(T * -100);
 		if (T % 2) {
-			controller.SetButtonA(TRUE);
+			//controller.SetButtonA(TRUE);
+			controller.a->SetValue(true);
 		}
 		else {
-			controller.SetButtonA(FALSE);
+			//controller.SetButtonA(FALSE);
+			controller.a->SetValue(false);
 		}
 
 		switch (T)
@@ -55,7 +58,7 @@ int main()
 			break;
 		case 20:
 			controller.SetDPadDown();
-			controller.SetButtonB(FALSE);
+			controller.b->SetValue(FALSE);
 			break;
 		case 40:
 			controller.SetDPadLeft();
