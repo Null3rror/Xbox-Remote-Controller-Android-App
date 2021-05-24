@@ -2,18 +2,29 @@ package com.example.androidclient;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+
+import com.example.androidclient.connection.Connection;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
@@ -38,11 +49,16 @@ public class MainActivity extends AppCompatActivity {
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 tvMessages.setText("");
                 SERVER_IP = etIP.getText().toString().trim();
                 SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-                Thread1 = new Thread(new Thread1());
-                Thread1.start();
+
+                Connection connection = Connection.getInstance();
+                connection.createConnection(SERVER_IP, SERVER_PORT);
+
+                new Thread(new Thread2()).start();
+                new Thread(new Thread3()).start();
             }
         });
 
@@ -50,87 +66,70 @@ public class MainActivity extends AppCompatActivity {
     private PrintWriter output;
     private BufferedReader input;
 
-    class Thread1 implements Runnable {
+
+    class Thread1 implements Runnable { //establish connection
         public void run() {
-            Socket socket;
-            try {
-                socket = new Socket(SERVER_IP, SERVER_PORT);
-                output = new PrintWriter(socket.getOutputStream());
-                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                String userSelected = String.valueOf(user.getSelectedItem());
-                output.flush();
-                output.write("@@"+ userSelected);
-                output.flush();
-
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvMessages.setText("Connected\n");
-                    }
-                });
-
-                new Thread(new Thread2()).start();
-
-                String message = "ADC";
-                new Thread(new Thread3(message)).start();
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            Socket socket;
+//            try {
+//
+//                socket = new Socket(SERVER_IP, SERVER_PORT);
+//                output = new PrintWriter(socket.getOutputStream());
+//                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//
+//                String userSelected = String.valueOf(user.getSelectedItem());
+//                output.flush();
+//                output.write("@@"+ userSelected);
+////                output.flush();
+//
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        tvMessages.setText("Connected\n");
+//                    }
+//                });
+//
+//                new Thread(new Thread2()).start();
+//
+////                String message = "123";
+////                new Thread(new Thread3()).start();
+//
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     }
     class Thread2 implements Runnable {
+
         @Override
         public void run() {
+            Connection connection = Connection.getInstance();
+            String message = "";
             do {
-                try {
-                    if (!input.ready()){
-                        if (message != null) {
-                            runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvMessages.append("server: " + message + "\n");
-                                message ="";
-                            }
-                            });
-                        }
-                    }
-                    int num = input.read();
-                    message += Character.toString((char) num);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                message = connection.receive();
             }while (!message.equals("bye"));
         }
     }
-    class Thread3 implements Runnable {
-        private String message;
-        Thread3(String message) {
-            this.message = message;
-        }
+
+    class Thread3 implements Runnable { // send data to server
+        private Integer counter = 0;
+
         @Override
         public void run() {
-
+            Connection connection = Connection.getInstance();
             Timer t = new Timer();
             t.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
-                                          output.flush();
-                                          output.write(message);
-                                          output.flush();
+                                          counter++;
+                                          connection.send(counter.toString());
                                       }
                                   },
-                    0, 500);
+                    0, 100);
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvMessages.append("client: " + message + "\n");
-                }
-            });
+
         }
     }
 }
