@@ -2,7 +2,6 @@ package com.example.androidclient;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,15 +12,7 @@ import android.widget.TextView;
 import com.example.androidclient.connection.Connection;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -57,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 Connection connection = Connection.getInstance();
                 connection.createConnection(SERVER_IP, SERVER_PORT);
 
-                new Thread(new Thread2()).start();
-                new Thread(new Thread3()).start();
+                new Thread(new ReceiveThread()).start();
+                new Thread(new SendThread()).start();
             }
         });
 
@@ -101,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
         }
     }
-    class Thread2 implements Runnable {
+    class ReceiveThread implements Runnable {
 
         @Override
         public void run() {
@@ -113,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class Thread3 implements Runnable { // send data to server
+    class SendThread implements Runnable { // send data to server
         private Integer counter = 0;
 
         @Override
