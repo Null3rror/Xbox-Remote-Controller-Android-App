@@ -7,7 +7,7 @@
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
 #define BUFLEN 512	//Max length of buffer
-#define PORT 8080	//The port on which to listen for incoming data
+#define PORT 4000	//The port on which to listen for incoming data
 
 int main()
 {
@@ -37,7 +37,7 @@ int main()
 
 	//Prepare the sockaddr_in structure
 	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = inet_addr("192.168.1.5");;
+	server.sin_addr.s_addr = INADDR_ANY;
 	server.sin_port = htons(PORT);
 
 	//Bind

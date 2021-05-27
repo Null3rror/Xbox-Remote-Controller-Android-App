@@ -1,5 +1,7 @@
 package com.example.androidclient;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -47,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Connection connection = Connection.getInstance();
                 connection.createConnection(SERVER_IP, SERVER_PORT);
-
-                new Thread(new ReceiveThread()).start();
-                new Thread(new SendThread()).start();
+                Intent layout = new Intent(MainActivity.this, Layout.class);
+                startActivity(layout);
             }
         });
 
@@ -92,36 +93,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
         }
     }
-    class ReceiveThread implements Runnable {
 
-        @Override
-        public void run() {
-            Connection connection = Connection.getInstance();
-            String message = "";
-            do {
-                message = connection.receive();
-            }while (!message.equals("bye"));
-        }
-    }
-
-    class SendThread implements Runnable { // send data to server
-        private Integer counter = 0;
-
-        @Override
-        public void run() {
-            Connection connection = Connection.getInstance();
-            Timer t = new Timer();
-            t.scheduleAtFixedRate(new TimerTask() {
-                                      @Override
-                                      public void run() {
-                                          counter++;
-                                          connection.send(counter.toString());
-                                      }
-                                  },
-                    0, 100);
-
-
-        }
-    }
 }
 
