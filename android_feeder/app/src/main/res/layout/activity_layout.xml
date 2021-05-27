@@ -66,7 +66,7 @@
 
     <Button
         android:id="@+id/buttonBack"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
@@ -79,7 +79,7 @@
 
     <Button
         android:id="@+id/buttonRS"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
@@ -92,7 +92,7 @@
 
     <Button
         android:id="@+id/buttonLS"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
@@ -105,7 +105,7 @@
 
     <Button
         android:id="@+id/buttonStart"
-        android:layout_width="90dp"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
@@ -189,50 +189,64 @@
     <ImageButton
         android:id="@+id/imageButtonRight"
         android:layout_width="70dp"
-        android:layout_height="22dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:src="@mipmap/right_arrow"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/right_arrow"
         app:layout_constraintBottom_toTopOf="@+id/imageButtonDown"
         app:layout_constraintStart_toEndOf="@+id/imageButtonLeft" />
 
     <ImageButton
         android:id="@+id/imageButtonLeft"
         android:layout_width="70dp"
-        android:layout_height="22dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="112dp"
-        android:layout_marginLeft="112dp"
-        android:src="@mipmap/left_arrow"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/left_arrow"
         app:layout_constraintBottom_toTopOf="@+id/imageButtonDown"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButtonUp"
-        android:layout_width="22dp"
+        android:layout_width="50dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="180dp"
         android:layout_marginLeft="180dp"
-        android:layout_marginBottom="20dp"
-        android:src="@mipmap/up_arrow"
+        android:layout_marginBottom="40dp"
+        android:background="@null"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/up_arrow"
         app:layout_constraintBottom_toTopOf="@+id/imageButtonDown"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButtonDown"
-        android:layout_width="22dp"
+        android:layout_width="50dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="180dp"
         android:layout_marginLeft="180dp"
         android:layout_marginBottom="16dp"
-        android:src="@mipmap/down_arrow"
+        android:background="@null"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/down_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
