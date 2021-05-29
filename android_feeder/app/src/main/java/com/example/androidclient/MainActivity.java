@@ -11,7 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
-import com.example.androidclient.connection.Connection;
+import com.example.androidclient.configs.Connection;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;

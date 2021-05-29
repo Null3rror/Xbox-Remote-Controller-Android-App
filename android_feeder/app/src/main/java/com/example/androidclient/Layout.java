@@ -10,7 +10,8 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.androidclient.connection.Connection;
+import com.example.androidclient.configs.Constants;
+import com.example.androidclient.configs.Connection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +20,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Layout extends AppCompatActivity {
+
     Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLS,btnRS,btnLT,btnLB,btnRT,btnRB,btn13;
     ImageButton btnUp,btnDown,btnLeft,btnRight;
 
@@ -27,6 +29,7 @@ public class Layout extends AppCompatActivity {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
@@ -58,153 +61,153 @@ public class Layout extends AppCompatActivity {
 
         btnA.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 1;
+                number |= Constants.BUTTON_A_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<0);
+                number &= ~(Constants.BUTTON_A_BIT);
             }
             return true;
         });
 
         btnB.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 2;
+                number |= Constants.BUTTON_B_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<1);
+                number &= ~(Constants.BUTTON_B_BIT);
             }
             return true;
         });
 
         btnX.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 4;
+                number |= Constants.BUTTON_X_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<2);
+                number &= ~(Constants.BUTTON_X_BIT);
             }
             return true;
         });
 
         btnY.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 8;
+                number |= Constants.BUTTON_Y_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<3);
+                number &= ~(Constants.BUTTON_Y_BIT);
             }
             return true;
         });
 
         btnUp.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 16;
+                number |= Constants.BUTTON_UP_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<4);
+                number &= ~(Constants.BUTTON_UP_BIT);
             }
             return true;
         });
 
         btnDown.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 32;
+                number |= Constants.BUTTON_DOWN_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<5);
+                number &= ~(Constants.BUTTON_DOWN_BIT);
             }
             return true;
         });
 
         btnRight.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 64;
+                number |= Constants.BUTTON_RIGHT_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<6);
+                number &= ~(Constants.BUTTON_RIGHT_BIT);
             }
             return true;
         });
 
         btnLeft.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 128;
+                number |= Constants.BUTTON_LEFT_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<7);
+                number &= ~(Constants.BUTTON_LEFT_BIT);
             }
             return true;
         });
 
         btnStart.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 256;
+                number |= Constants.BUTTON_START_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<8);
+                number &= ~(Constants.BUTTON_START_BIT);
             }
             return true;
         });
 
         btnBack.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 512;
+                number |= Constants.BUTTON_BACK_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<9);
+                number &= ~(Constants.BUTTON_BACK_BIT);
             }
             return true;
         });
 
         btnRS.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 1024;
+                number |= Constants.BUTTON_RS_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<10);
+                number &= ~(Constants.BUTTON_RS_BIT);
             }
             return true;
         });
 
         btnLS.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 2048;
+                number |= Constants.BUTTON_LS_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<11);
+                number &= ~(Constants.BUTTON_LS_BIT);
             }
             return true;
         });
 
         btnRT.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 4096;
+                number |= Constants.BUTTON_RT_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<12);
+                number &= ~(Constants.BUTTON_RT_BIT);
             }
             return true;
         });
 
         btnRB.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 8192;
+                number |= Constants.BUTTON_RB_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<13);
+                number &= ~(Constants.BUTTON_RB_BIT);
             }
             return true;
         });
 
         btnLT.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 16384;
+                number |= Constants.BUTTON_LT_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<14);
+                number &= ~(Constants.BUTTON_LT_BIT);
             }
             return true;
         });
 
         btnLB.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 32768;
+                number |= Constants.BUTTON_LB_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<15);
+                number &= ~(Constants.BUTTON_LB_BIT);
             }
             return true;
         });
 
         btn13.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= 65536;
+                number |= Constants.BUTTON_13_BIT;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(1<<16);
+                number &= ~(Constants.BUTTON_13_BIT);
             }
             return true;
         });

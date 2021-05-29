@@ -1,4 +1,4 @@
-package com.example.androidclient.connection;
+package com.example.androidclient.configs;
 
 
 import android.util.Log;
