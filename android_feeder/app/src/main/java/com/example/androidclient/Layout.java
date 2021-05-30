@@ -2,7 +2,9 @@ package com.example.androidclient;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,16 +18,29 @@ import com.example.androidclient.configs.Connection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Layout extends AppCompatActivity {
 
-    Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLS,btnRS,btnLT,btnLB,btnRT,btnRB,btn13;
-    ImageButton btnUp,btnDown,btnLeft,btnRight;
+    private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLS,btnRS,btnLT,btnLB,btnRT,btnRB,btn13;
+    private ImageButton btnUp,btnDown,btnLeft,btnRight;
 
-    int number = 0;
-    JSONObject data = new JSONObject();
+    private int number = 0;
+    private Map<String, Integer> leftJoystickValues = new HashMap<String, Integer>(){{
+        put("X", 0);
+        put("Y", 0);
+    }};
+    private Map<String, Integer> rightJoystickValues = new HashMap<String, Integer>(){{
+        put("X", 0);
+        put("Y", 0);
+    }};
+
+
+    private JSONObject data = new JSONObject();
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +53,8 @@ public class Layout extends AppCompatActivity {
         setContentView(R.layout.activity_layout);
 
 
+        JoystickView leftJoystick = (JoystickView) findViewById(R.id.leftJoystickView);
+        JoystickView rightJoystick = (JoystickView) findViewById(R.id.rightJoystickView);
 
         btnA = findViewById(R.id.buttonA);
         btnB = findViewById(R.id.buttonB);
@@ -51,7 +68,7 @@ public class Layout extends AppCompatActivity {
         btnRB = findViewById(R.id.buttonRB);
         btnLT = findViewById(R.id.buttonLT);
         btnLB = findViewById(R.id.buttonLB);
-        btn13 = findViewById(R.id.button13);
+//        btn13 = findViewById(R.id.button13);
         btnUp = findViewById(R.id.imageButtonUp);
         btnDown = findViewById(R.id.imageButtonDown);
         btnRight = findViewById(R.id.imageButtonRight);
@@ -158,13 +175,24 @@ public class Layout extends AppCompatActivity {
             return true;
         });
 
-        btnLS.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_LS_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_LS_BIT);
+//        btnLS.setOnClickListener((v, event) -> {
+//
+//            if(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
+//
+//            }
+////            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+////                number |= Constants.BUTTON_LS_BIT;
+////            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+////                number &= ~(Constants.BUTTON_LS_BIT);
+////            }
+//            return true;
+//        });
+        btnLS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                number ^=  Constants.BUTTON_LS_BIT;
             }
-            return true;
         });
 
         btnRT.setOnTouchListener((v, event) -> {
@@ -203,13 +231,29 @@ public class Layout extends AppCompatActivity {
             return true;
         });
 
-        btn13.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_13_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_13_BIT);
+//        btn13.setOnTouchListener((v, event) -> {
+//            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                number |= Constants.BUTTON_13_BIT;
+//            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                number &= ~(Constants.BUTTON_13_BIT);
+//            }
+//            return true;
+//        });
+
+        leftJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(double angle, double strength) {
+                leftJoystickValues.put("X", (int)(strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
+                leftJoystickValues.put("Y", (int)(strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-            return true;
+        });
+
+        rightJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(double angle, double strength) {
+                rightJoystickValues.put("X", (int)(strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
+                rightJoystickValues.put("Y", (int)(strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
+            }
         });
 
 
@@ -241,6 +285,10 @@ public class Layout extends AppCompatActivity {
                                       public void run() {
                                           try {
                                               data.put("buttons", number);
+                                              data.put("left_X", leftJoystickValues.get("X"));
+                                              data.put("left_Y", leftJoystickValues.get("Y"));
+                                              data.put("right_X", rightJoystickValues.get("X"));
+                                              data.put("right_Y", rightJoystickValues.get("Y"));
                                           } catch (JSONException e) {
                                               e.printStackTrace();
                                           }
