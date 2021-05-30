@@ -76,18 +76,6 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/buttonRS"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:text="RS(12)"
-        android:textSize="10sp"
-        app:backgroundTint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/rightJoystickView"
-        app:layout_constraintEnd_toStartOf="@+id/buttonX" />
-
-    <Button
         android:id="@+id/buttonStart"
         android:layout_width="50dp"
         android:layout_height="40dp"
@@ -191,19 +179,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/buttonLS"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginBottom="48dp"
-        android:text="LS(11)"
-        android:textSize="10sp"
-        app:backgroundTint="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonDown" />
-
     <ImageButton
         android:id="@+id/imageButtonUp"
         android:layout_width="50dp"
@@ -228,15 +203,12 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="164dp"
         android:layout_marginLeft="164dp"
-        android:layout_marginBottom="56dp"
         android:background="@null"
         android:padding="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/right_arrow"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLS"
-        app:layout_constraintEnd_toStartOf="@+id/buttonRS"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonLeft" />
+        app:layout_constraintStart_toEndOf="@+id/imageButtonLeft"
+        tools:layout_editor_absoluteY="199dp" />
 
     <ImageButton
         android:id="@+id/imageButtonLeft"

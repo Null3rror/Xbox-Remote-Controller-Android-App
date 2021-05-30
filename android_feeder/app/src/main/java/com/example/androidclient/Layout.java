@@ -1,8 +1,10 @@
 package com.example.androidclient;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -26,7 +29,7 @@ import java.util.TimerTask;
 
 public class Layout extends AppCompatActivity {
 
-    private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLS,btnRS,btnLT,btnLB,btnRT,btnRB,btn13;
+    private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLT,btnLB,btnRT,btnRB;
     private ImageButton btnUp,btnDown,btnLeft,btnRight;
 
     private int number = 0;
@@ -39,17 +42,22 @@ public class Layout extends AppCompatActivity {
         put("Y", 0);
     }};
 
-
+    public static final int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
     private JSONObject data = new JSONObject();
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "WrongConstant"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         getSupportActionBar().hide(); // hide the title bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= 9) {
+            setRequestedOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        }
+
+
         setContentView(R.layout.activity_layout);
 
 
@@ -62,8 +70,6 @@ public class Layout extends AppCompatActivity {
         btnY = findViewById(R.id.buttonY);
         btnStart = findViewById(R.id.buttonStart);
         btnBack = findViewById(R.id.buttonBack);
-        btnRS = findViewById(R.id.buttonRS);
-        btnLS = findViewById(R.id.buttonLS);
         btnRT = findViewById(R.id.buttonRT);
         btnRB = findViewById(R.id.buttonRB);
         btnLT = findViewById(R.id.buttonLT);
@@ -166,34 +172,22 @@ public class Layout extends AppCompatActivity {
             return true;
         });
 
-        btnRS.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_RS_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_RS_BIT);
-            }
-            return true;
-        });
-
-//        btnLS.setOnClickListener((v, event) -> {
-//
-//            if(event.getAction() == MotionEvent.ACTION_BUTTON_PRESS){
-//
+//        btnRS.setOnTouchListener((v, event) -> {
+//            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                number |= Constants.BUTTON_RS_BIT;
+//            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                number &= ~(Constants.BUTTON_RS_BIT);
 //            }
-////            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-////                number |= Constants.BUTTON_LS_BIT;
-////            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-////                number &= ~(Constants.BUTTON_LS_BIT);
-////            }
 //            return true;
 //        });
-        btnLS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                number ^=  Constants.BUTTON_LS_BIT;
-            }
-        });
+//
+//        btnLS.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                number ^=  Constants.BUTTON_LS_BIT;
+//            }
+//        });
 
         btnRT.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -231,14 +225,6 @@ public class Layout extends AppCompatActivity {
             return true;
         });
 
-//        btn13.setOnTouchListener((v, event) -> {
-//            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                number |= Constants.BUTTON_13_BIT;
-//            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                number &= ~(Constants.BUTTON_13_BIT);
-//            }
-//            return true;
-//        });
 
         leftJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
@@ -246,7 +232,8 @@ public class Layout extends AppCompatActivity {
                 leftJoystickValues.put("X", (int)(strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 leftJoystickValues.put("Y", (int)(strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        });
+        }, 16);
+
 
         rightJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
@@ -254,11 +241,38 @@ public class Layout extends AppCompatActivity {
                 rightJoystickValues.put("X", (int)(strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 rightJoystickValues.put("Y", (int)(strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        });
+        }, 16);
 
 
         new Thread(new ReceiveThread()).start();
         new Thread(new SendThread()).start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            event.startTracking();
+            number |= Constants.BUTTON_RS_BIT;
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            event.startTracking();
+            number ^= Constants.BUTTON_LS_BIT;
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+
+            event.startTracking();
+            number &= ~(Constants.BUTTON_RS_BIT);
+            return true;
+        }
+
+        return super.onKeyUp(keyCode, event);
     }
 
     class ReceiveThread implements Runnable {
