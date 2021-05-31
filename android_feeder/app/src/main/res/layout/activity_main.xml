@@ -1,5 +1,6 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools = "http://schemas.android.com/tools"
     android:layout_width = "match_parent"
     android:layout_height = "match_parent"
@@ -46,8 +47,59 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnConnect"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="-6dp"
+        android:layout_marginBottom="38dp"
+        android:gravity ="center"
         android:inputType="textMultiLine"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+    <ImageView
+        android:id="@+id/layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextTextPersonName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/highlight"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@mipmap/dpadlayout" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvMessages"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Layouts" />
+
+    <ImageView
+        android:id="@+id/minimalLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextTextPersonName"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_toEndOf="@+id/layout1"
+        android:layout_toRightOf="@+id/layout1"
+        android:background="@drawable/highlight"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@mipmap/minimal_layout" />
 
 </RelativeLayout>

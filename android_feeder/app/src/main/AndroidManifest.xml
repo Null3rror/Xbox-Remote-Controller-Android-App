@@ -15,6 +15,9 @@
         <activity android:name=".Layout"
             android:screenOrientation="landscape">
         </activity>
+        <activity android:name=".MinimalLayout"
+            android:screenOrientation="landscape">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

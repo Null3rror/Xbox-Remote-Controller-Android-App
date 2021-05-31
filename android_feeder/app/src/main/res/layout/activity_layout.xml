@@ -207,8 +207,8 @@
         android:padding="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/right_arrow"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonLeft"
-        tools:layout_editor_absoluteY="199dp" />
+        app:layout_constraintBottom_toTopOf="@+id/rightJoystickView"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonLeft" />
 
     <ImageButton
         android:id="@+id/imageButtonLeft"

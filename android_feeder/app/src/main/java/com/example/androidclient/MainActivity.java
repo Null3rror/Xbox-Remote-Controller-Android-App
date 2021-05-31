@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner user;
     TextView tvMessages;
     Button btnConnect;
+    ImageView layout1, miniamlLayout;
     String SERVER_IP;
     int SERVER_PORT;
     private String message;
@@ -38,60 +41,46 @@ public class MainActivity extends AppCompatActivity {
         user = findViewById(R.id.spinner1);
         tvMessages = findViewById(R.id.tvMessages);
         btnConnect = findViewById(R.id.btnConnect);
+        layout1 = findViewById(R.id.layout1);
+        miniamlLayout = findViewById(R.id.minimalLayout);
+
+        layout1.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Log.d("layout", " layout1");
+                connectToServer();
+                Intent layout = new Intent(MainActivity.this, Layout.class);
+                startActivity(layout);
+            }
+        });
+
+        miniamlLayout.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Log.d("TAG", " minimalLayout");
+                connectToServer();
+                Intent layout = new Intent(MainActivity.this, MinimalLayout.class);
+                startActivity(layout);
+            }
+        });
 
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                tvMessages.setText("");
-                SERVER_IP = etIP.getText().toString().trim();
-                SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-
-                Connection connection = Connection.getInstance();
-                connection.createConnection(SERVER_IP, SERVER_PORT);
+                connectToServer();
                 Intent layout = new Intent(MainActivity.this, Layout.class);
                 startActivity(layout);
             }
         });
 
     }
-    private PrintWriter output;
-    private BufferedReader input;
 
+    private void connectToServer(){
+        tvMessages.setText("");
+        SERVER_IP = etIP.getText().toString().trim();
+        SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
 
-    class Thread1 implements Runnable { //establish connection
-        public void run() {
-
-//            Socket socket;
-//            try {
-//
-//                socket = new Socket(SERVER_IP, SERVER_PORT);
-//                output = new PrintWriter(socket.getOutputStream());
-//                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//
-//                String userSelected = String.valueOf(user.getSelectedItem());
-//                output.flush();
-//                output.write("@@"+ userSelected);
-////                output.flush();
-//
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        tvMessages.setText("Connected\n");
-//                    }
-//                });
-//
-//                new Thread(new Thread2()).start();
-//
-////                String message = "123";
-////                new Thread(new Thread3()).start();
-//
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-        }
+        Connection connection = Connection.getInstance();
+        connection.createConnection(SERVER_IP, SERVER_PORT);
     }
 
 }

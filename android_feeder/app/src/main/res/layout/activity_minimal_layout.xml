@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MinimalLayout">
+
+
+    <Button
+        android:id="@+id/buttonB"
+        android:layout_width="135dp"
+        android:layout_height="111dp"
+        android:text="B(2)"
+        android:textSize="20sp"
+        app:backgroundTint="#E91E63"
+        app:layout_constraintBottom_toTopOf="@+id/buttonA"
+        app:layout_constraintEnd_toStartOf="@+id/rightJoystickView" />
+
+    <Button
+        android:id="@+id/buttonA"
+        android:layout_width="135dp"
+        android:layout_height="111dp"
+        android:layout_marginBottom="4dp"
+        android:text="A(3)"
+        android:textSize="20sp"
+        app:backgroundTint="#8BC34A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/rightJoystickView" />
+
+    <Button
+        android:id="@+id/buttonY"
+        android:layout_width="135dp"
+        android:layout_height="111dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Y(1)"
+        android:textSize="20sp"
+        app:backgroundTint="#FFC107"
+        app:layout_constraintBottom_toTopOf="@+id/buttonX"
+        app:layout_constraintEnd_toStartOf="@+id/buttonB" />
+
+    <Button
+        android:id="@+id/buttonX"
+        android:layout_width="135dp"
+        android:layout_height="111dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="4dp"
+        android:text="X(4)"
+        android:textSize="20sp"
+        app:backgroundTint="#00BCD4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonA" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="92dp"
+        android:textSize="10sp"
+        app:backgroundTint="#000000"
+        app:icon="?attr/actionModeCopyDrawable"
+        app:layout_constraintBottom_toTopOf="@+id/rightJoystickView"
+        app:layout_constraintEnd_toStartOf="@+id/buttonStart" />
+
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="92dp"
+        android:textSize="10sp"
+        app:backgroundTint="#000000"
+        app:icon="@android:drawable/ic_media_play"
+        app:layout_constraintBottom_toTopOf="@+id/rightJoystickView"
+        app:layout_constraintEnd_toStartOf="@+id/buttonRT" />
+
+    <Button
+        android:id="@+id/buttonRT"
+        android:layout_width="260dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="RT"
+        android:textSize="10sp"
+        app:backgroundTint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLB"
+        android:layout_width="260dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="36dp"
+        android:text="LB(5)"
+        android:textSize="10sp"
+        app:backgroundTint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/rightJoystickView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLT"
+        android:layout_width="260dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="LT"
+        android:textSize="10sp"
+        app:backgroundTint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLB"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonRB"
+        android:layout_width="260dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="RB(6)"
+        android:textSize="10sp"
+        app:backgroundTint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/rightJoystickView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.147" />
+
+    <com.example.androidclient.JoystickView
+        android:id="@+id/leftJoystickView"
+        android:layout_width="177dp"
+        android:layout_height="178dp"
+        android:layout_marginBottom="24dp"
+        app:JV_backgroundColor="#65191C1C"
+        app:JV_borderColor="#65191C1C"
+        app:JV_borderWidth="4dp"
+        app:JV_buttonColor="#19120F"
+        app:JV_buttonSizeRatio="30%"
+        app:JV_fixedCenter="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonY"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.androidclient.JoystickView
+        android:id="@+id/rightJoystickView"
+        android:layout_width="225dp"
+        android:layout_height="217dp"
+        app:JV_backgroundColor="#65191C1C"
+        app:JV_borderColor="#65191C1C"
+        app:JV_borderWidth="4dp"
+        app:JV_buttonColor="#19120F"
+        app:JV_buttonSizeRatio="25%"
+        app:JV_fixedCenter="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
