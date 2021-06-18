@@ -1,12 +1,15 @@
 package com.example.androidclient;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,17 +23,18 @@ import com.example.androidclient.configs.Connection;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Layout extends AppCompatActivity {
 
     private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLT,btnLB,btnRT,btnRB;
     private ImageButton btnUp,btnDown,btnLeft,btnRight;
+    private Timer sendTimer;
 
     private int number = 0;
     private Map<String, Integer> leftJoystickValues = new HashMap<String, Integer>(){{
@@ -44,6 +48,7 @@ public class Layout extends AppCompatActivity {
 
     public static final int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
     private JSONObject data = new JSONObject();
+
     @SuppressLint({"ClickableViewAccessibility", "WrongConstant"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,156 +79,27 @@ public class Layout extends AppCompatActivity {
         btnRB = findViewById(R.id.buttonRB);
         btnLT = findViewById(R.id.buttonLT);
         btnLB = findViewById(R.id.buttonLB);
-//        btn13 = findViewById(R.id.button13);
         btnUp = findViewById(R.id.imageButtonUp);
         btnDown = findViewById(R.id.imageButtonDown);
         btnRight = findViewById(R.id.imageButtonRight);
         btnLeft = findViewById(R.id.imageButtonLeft);
 
 
+        ClickEvent(btnA, Constants.BUTTON_A_BIT, getResources().getColor(R.color.green));
+        ClickEvent(btnB, Constants.BUTTON_B_BIT, getResources().getColor(R.color.red));
+        ClickEvent(btnX, Constants.BUTTON_X_BIT, getResources().getColor(R.color.cyan));
+        ClickEvent(btnY, Constants.BUTTON_Y_BIT, getResources().getColor(R.color.yellow));
+        ClickEvent(btnUp, Constants.BUTTON_UP_BIT, getResources().getColor(R.color.white));
+        ClickEvent(btnDown, Constants.BUTTON_DOWN_BIT, getResources().getColor(R.color.white));
+        ClickEvent(btnRight, Constants.BUTTON_RIGHT_BIT, getResources().getColor(R.color.white));
+        ClickEvent(btnLeft, Constants.BUTTON_LEFT_BIT, getResources().getColor(R.color.white));
+        ClickEvent(btnStart, Constants.BUTTON_START_BIT, getResources().getColor(R.color.black));
+        ClickEvent(btnBack, Constants.BUTTON_BACK_BIT, getResources().getColor(R.color.black));
+        ClickEvent(btnRT, Constants.BUTTON_RT_BIT, getResources().getColor(R.color.black));
+        ClickEvent(btnRB, Constants.BUTTON_RB_BIT, getResources().getColor(R.color.black));
+        ClickEvent(btnLT, Constants.BUTTON_LT_BIT, getResources().getColor(R.color.black));
+        ClickEvent(btnLB, Constants.BUTTON_LB_BIT, getResources().getColor(R.color.black));
 
-        btnA.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_A_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_A_BIT);
-            }
-            return true;
-        });
-
-        btnB.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_B_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_B_BIT);
-            }
-            return true;
-        });
-
-        btnX.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_X_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_X_BIT);
-            }
-            return true;
-        });
-
-        btnY.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_Y_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_Y_BIT);
-            }
-            return true;
-        });
-
-        btnUp.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_UP_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_UP_BIT);
-            }
-            return true;
-        });
-
-        btnDown.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_DOWN_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_DOWN_BIT);
-            }
-            return true;
-        });
-
-        btnRight.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_RIGHT_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_RIGHT_BIT);
-            }
-            return true;
-        });
-
-        btnLeft.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_LEFT_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_LEFT_BIT);
-            }
-            return true;
-        });
-
-        btnStart.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_START_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_START_BIT);
-            }
-            return true;
-        });
-
-        btnBack.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_BACK_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_BACK_BIT);
-            }
-            return true;
-        });
-
-//        btnRS.setOnTouchListener((v, event) -> {
-//            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                number |= Constants.BUTTON_RS_BIT;
-//            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                number &= ~(Constants.BUTTON_RS_BIT);
-//            }
-//            return true;
-//        });
-//
-//        btnLS.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view)
-//            {
-//                number ^=  Constants.BUTTON_LS_BIT;
-//            }
-//        });
-
-        btnRT.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_RT_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_RT_BIT);
-            }
-            return true;
-        });
-
-        btnRB.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_RB_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_RB_BIT);
-            }
-            return true;
-        });
-
-        btnLT.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_LT_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_LT_BIT);
-            }
-            return true;
-        });
-
-        btnLB.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                number |= Constants.BUTTON_LB_BIT;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                number &= ~(Constants.BUTTON_LB_BIT);
-            }
-            return true;
-        });
 
 
         leftJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
@@ -243,9 +119,16 @@ public class Layout extends AppCompatActivity {
             }
         }, 16);
 
-
         new Thread(new ReceiveThread()).start();
         new Thread(new SendThread()).start();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        Log.d("stop", "onDestroy");
+        sendTimer.cancel();
     }
 
     @Override
@@ -293,8 +176,8 @@ public class Layout extends AppCompatActivity {
         @Override
         public void run() {
             Connection connection = Connection.getInstance();
-            Timer t = new Timer();
-            t.scheduleAtFixedRate(new TimerTask() {
+            sendTimer = new Timer();
+            sendTimer.scheduleAtFixedRate(new TimerTask() {
                                       @Override
                                       public void run() {
                                           try {
@@ -314,6 +197,46 @@ public class Layout extends AppCompatActivity {
                     0, 16);
 
 
+        }
+    }
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void ClickEvent(Button btn, int btnValue, int color){
+        btn.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                number |= btnValue;
+                btn.setBackgroundColor(getResources().getColor(R.color.clickedBtn));
+                VibrateBtn();
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                number &= ~(btnValue);
+                btn.setBackgroundColor(color);
+            }
+            return true;
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void ClickEvent(ImageButton btn, int btnValue, int color){
+        btn.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                number |= btnValue;
+                btn.setBackgroundColor(getResources().getColor(R.color.clickedBtn));
+                VibrateBtn();
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                number &= ~(btnValue);
+                btn.setBackgroundColor(color);
+            }
+            return true;
+        });
+    }
+
+    private void VibrateBtn() {
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(Constants.VibrationRate, VibrationEffect.DEFAULT_AMPLITUDE));
+        }else{
+            vibrator.vibrate(Constants.VibrationRate);
         }
     }
 }
