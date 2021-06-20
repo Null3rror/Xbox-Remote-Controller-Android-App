@@ -56,7 +56,7 @@
     <ImageView
         android:id="@+id/layout1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="105dp"
         android:layout_below="@+id/editTextTextPersonName"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
@@ -66,7 +66,7 @@
         android:background="@drawable/highlight"
         android:clickable="true"
         android:focusable="true"
-        app:srcCompat="@mipmap/dpadlayout" />
+        app:srcCompat="@mipmap/dpad_layout" />
 
     <EditText
         android:id="@+id/editTextTextPersonName"
@@ -86,7 +86,7 @@
     <ImageView
         android:id="@+id/minimalLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="105dp"
         android:layout_below="@+id/editTextTextPersonName"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -101,5 +101,20 @@
         android:clickable="true"
         android:focusable="true"
         app:srcCompat="@mipmap/minimal_layout" />
+
+    <ImageView
+        android:id="@+id/sensorLayout"
+        android:layout_width="160dp"
+        android:layout_height="102dp"
+        android:layout_below="@+id/layout1"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/highlight"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@mipmap/sensor_layout" />
 
 </RelativeLayout>

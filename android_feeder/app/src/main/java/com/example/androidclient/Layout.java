@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidclient.configs.Constants;
 import com.example.androidclient.configs.Connection;
+import com.example.androidclient.service.VibrationService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +36,8 @@ public class Layout extends AppCompatActivity {
     private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLT,btnLB,btnRT,btnRB;
     private ImageButton btnUp,btnDown,btnLeft,btnRight;
     private Timer sendTimer;
+
+    VibrationService vibrationService;
 
     private int number = 0;
     private Map<String, Integer> leftJoystickValues = new HashMap<String, Integer>(){{
@@ -65,7 +68,7 @@ public class Layout extends AppCompatActivity {
 
         setContentView(R.layout.activity_layout);
 
-
+        vibrationService = new VibrationService((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
         JoystickView leftJoystick = (JoystickView) findViewById(R.id.leftJoystickView);
         JoystickView rightJoystick = (JoystickView) findViewById(R.id.rightJoystickView);
 
@@ -129,6 +132,7 @@ public class Layout extends AppCompatActivity {
         super.onDestroy();
         Log.d("stop", "onDestroy");
         sendTimer.cancel();
+        vibrationService.cancel();
     }
 
     @Override
@@ -232,11 +236,6 @@ public class Layout extends AppCompatActivity {
     }
 
     private void VibrateBtn() {
-        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator.vibrate(VibrationEffect.createOneShot(Constants.VibrationRate, VibrationEffect.DEFAULT_AMPLITUDE));
-        }else{
-            vibrator.vibrate(Constants.VibrationRate);
-        }
+        vibrationService.vibrate(Constants.VibrationRate, VibrationEffect.DEFAULT_AMPLITUDE);
     }
 }

@@ -2,6 +2,8 @@ package com.example.androidclient;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Matrix;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -12,13 +14,15 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidclient.configs.Connection;
 import com.example.androidclient.configs.Constants;
+import com.example.androidclient.service.AccelerometerSensor;
+import com.example.androidclient.service.GyroscopeSensor;
+import com.example.androidclient.service.SensorBase;
 import com.example.androidclient.service.VibrationService;
 
 import org.json.JSONException;
@@ -29,20 +33,21 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MinimalLayout extends AppCompatActivity {
+public class SensorLayout extends AppCompatActivity {
 
-    private Button btnY, btnX, btnB, btnA, btnStart, btnBack, btnLT, btnLB, btnRT, btnRB;
-
+    private Button btnY, btnX, btnB, btnA, btnStart, btnBack, btnLT, btnLB, btnRT, btnRB, sensorButton;
     private Timer sendTimer;
+    private ImageView steerView;
     VibrationService vibrationService;
-//    Vibrator vibrator;
+
+    private SensorManager sensorManager;
+    private SensorBase gyroscopeEventListener;
+    private SensorBase accelerometerEventListener;
 
     private int number = 0;
+    private int sensorDataX = 0;
+    private boolean readSensor = false;
     private Map<String, Integer> leftJoystickValues = new HashMap<String, Integer>() {{
-        put("X", 0);
-        put("Y", 0);
-    }};
-    private Map<String, Integer> rightJoystickValues = new HashMap<String, Integer>() {{
         put("X", 0);
         put("Y", 0);
     }};
@@ -55,8 +60,8 @@ public class MinimalLayout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-        getSupportActionBar().hide(); // hide the title bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if (Build.VERSION.SDK_INT >= 9) {
@@ -64,11 +69,22 @@ public class MinimalLayout extends AppCompatActivity {
         }
 
 
-        setContentView(R.layout.activity_minimal_layout);
+        setContentView(R.layout.activity_sensor_layout);
 
         vibrationService = new VibrationService((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
-        JoystickView leftJoystick = (JoystickView) findViewById(R.id.leftJoystickView);
-        JoystickView rightJoystick = (JoystickView) findViewById(R.id.rightJoystickView);
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        gyroscopeEventListener = new GyroscopeSensor(sensorManager);
+        accelerometerEventListener = new AccelerometerSensor(sensorManager);
+
+        Log.d("gyroX", String.valueOf(getIntent().getFloatExtra("gyroX", 0.0f)));
+        Log.d("accX", String.valueOf(getIntent().getFloatExtra("accX", 0.0f)));
+
+        gyroscopeEventListener.setCalibrationValue(getIntent().getFloatExtra("gyroX", 0.0f),  getIntent().getFloatExtra("gyroY", 0.0f),  getIntent().getFloatExtra("gyroZ", 0.0f));
+        accelerometerEventListener.setCalibrationValue(getIntent().getFloatExtra("accX", 0.0f), getIntent().getFloatExtra("accY", 0.0f),getIntent().getFloatExtra("accZ", 0.0f));
+
+        JoystickView leftJoystick = findViewById(R.id.joystickView);
+
+        steerView = findViewById(R.id.steerView);
 
         btnA = findViewById(R.id.buttonA);
         btnB = findViewById(R.id.buttonB);
@@ -80,6 +96,7 @@ public class MinimalLayout extends AppCompatActivity {
         btnRB = findViewById(R.id.buttonRB);
         btnLT = findViewById(R.id.buttonLT);
         btnLB = findViewById(R.id.buttonLB);
+        sensorButton = findViewById(R.id.sensorButton);
 
         ClickEvent(btnA, Constants.BUTTON_A_BIT, getResources().getColor(R.color.green));
         ClickEvent(btnB, Constants.BUTTON_B_BIT, getResources().getColor(R.color.red));
@@ -92,6 +109,18 @@ public class MinimalLayout extends AppCompatActivity {
         ClickEvent(btnLT, Constants.BUTTON_LT_BIT, getResources().getColor(R.color.black));
         ClickEvent(btnLB, Constants.BUTTON_LB_BIT, getResources().getColor(R.color.black));
 
+        sensorButton.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                sensorButton.setBackgroundColor(getResources().getColor(R.color.clickedBtn));
+                readSensor = true;
+                VibrateBtn();
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                readSensor = false;
+                sensorButton.setBackgroundColor(getResources().getColor(R.color.purple_500));
+            }
+            return true;
+        });
+
 
         leftJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
@@ -102,22 +131,14 @@ public class MinimalLayout extends AppCompatActivity {
         }, 16);
 
 
-        rightJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-            @Override
-            public void onMove(double angle, double strength) {
-                rightJoystickValues.put("X", (int) (strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
-                rightJoystickValues.put("Y", (int) (strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
-            }
-        }, 16);
-
 
         new Thread(new ReceiveThread()).start();
         new Thread(new SendThread()).start();
     }
 
+
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         Log.d("stop", "onDestroy");
         sendTimer.cancel();
@@ -169,24 +190,43 @@ public class MinimalLayout extends AppCompatActivity {
         @Override
         public void run() {
             Connection connection = Connection.getInstance();
+//            int pivotX = steerView.getDrawable().getBounds().width()/2, pivotY = steerView.getDrawable().getBounds().height()/2;
+            Matrix matrix = new Matrix();
+            steerView.setScaleType(ImageView.ScaleType.MATRIX);
+
             sendTimer = new Timer();
             sendTimer.scheduleAtFixedRate(new TimerTask() {
-                                      @Override
-                                      public void run() {
-                                          try {
-                                              data.put("buttons", number);
-                                              data.put("left_X", leftJoystickValues.get("X"));
-                                              data.put("left_Y", leftJoystickValues.get("Y"));
-                                              data.put("right_X", rightJoystickValues.get("X"));
-                                              data.put("right_Y", rightJoystickValues.get("Y"));
-                                          } catch (JSONException e) {
-                                              e.printStackTrace();
-                                          }
-                                          connection.send(data.toString());
+                                              @Override
+                                              public void run() {
+                                                  try {
+                                                      gyroscopeEventListener.GetData(readSensor);
+                                                      sensorDataX = readSensor ? (int)(-(gyroscopeEventListener.GetData(readSensor).z) * 2 * Constants.JOYSTICK_RANGE_NUM) : 0;
+
+                                                      data.put("buttons", number);
+                                                      data.put("left_X", sensorDataX);
+                                                      data.put("left_Y", leftJoystickValues.get("Y"));
+                                                      data.put("right_X", 0);
+                                                      data.put("right_Y", 0);
+
+                                                      runOnUiThread(new Runnable() {
+
+                                                          @SuppressLint("SetTextI18n")
+                                                          @Override
+                                                          public void run() {
+                                                              matrix.postRotate((float) (Math.toDegrees(sensorDataX / Constants.JOYSTICK_RANGE_NUM)), steerView.getDrawable().getBounds().width()/2, steerView.getDrawable().getBounds().height()/2);
+                                                              steerView.setImageMatrix(matrix);
+                                                              // Stuff that updates the UI
+                                                          }
+                                                      });
+
+                                                  } catch (JSONException e) {
+                                                      e.printStackTrace();
+                                                  }
+                                                  connection.send(data.toString());
 //                                          number = 0;
 
-                                      }
-                                  },
+                                              }
+                                          },
                     0, 16);
 
 

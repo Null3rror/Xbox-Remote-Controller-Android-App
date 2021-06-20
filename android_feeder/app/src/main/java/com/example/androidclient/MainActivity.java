@@ -15,11 +15,6 @@ import android.widget.TextView;
 
 import com.example.androidclient.configs.Connection;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner user;
     TextView tvMessages;
     Button btnConnect;
-    ImageView layout1, miniamlLayout;
+    ImageView layout1, minimalLayout, sensorLayout;
     String SERVER_IP;
     int SERVER_PORT;
     private String message;
@@ -42,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
         tvMessages = findViewById(R.id.tvMessages);
         btnConnect = findViewById(R.id.btnConnect);
         layout1 = findViewById(R.id.layout1);
-        miniamlLayout = findViewById(R.id.minimalLayout);
+        minimalLayout = findViewById(R.id.minimalLayout);
+        sensorLayout = findViewById(R.id.sensorLayout);
+
 
         layout1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        miniamlLayout.setOnClickListener(new View.OnClickListener(){
+        minimalLayout.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Log.d("TAG", " minimalLayout");
                 connectToServer();
@@ -62,13 +59,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        sensorLayout.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Log.d("TAG", " sensorLayout");
+                connectToServer();
+                Intent layout = new Intent(MainActivity.this, CalibrationLayout.class);
+                startActivity(layout);
+            }
+        });
+
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                connectToServer();
-                Intent layout = new Intent(MainActivity.this, Layout.class);
-                startActivity(layout);
+                Log.d("Connect", "Baba ro Layout ha click kon :/");
             }
         });
 
