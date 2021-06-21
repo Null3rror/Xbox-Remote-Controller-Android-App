@@ -253,7 +253,7 @@ public class SensorLayout extends AppCompatActivity {
     private int readSensorData(){
         gyroscopeEventListener.GetData(readSensor);
         if(readSensor){
-            sensorDataX = (int)(-gyroscopeEventListener.GetData(true).z * 1.9 * Constants.JOYSTICK_RANGE_NUM);
+            sensorDataX = (int)(-gyroscopeEventListener.GetData(true).z * 2.2 * Constants.JOYSTICK_RANGE_NUM);
             sensorDataX = (int)(Math.signum(sensorDataX) * 9500 + sensorDataX);
             sensorDataX = Math.abs(sensorDataX) >  Constants.JOYSTICK_RANGE_NUM ? (int)(Math.signum(sensorDataX) * Constants.JOYSTICK_RANGE_NUM) : sensorDataX;
         }else{
