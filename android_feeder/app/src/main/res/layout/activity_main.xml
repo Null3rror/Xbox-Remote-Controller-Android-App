@@ -117,4 +117,23 @@
         android:focusable="true"
         app:srcCompat="@mipmap/sensor_layout" />
 
+    <ImageView
+        android:id="@+id/xboxLayout"
+        android:layout_width="160dp"
+        android:layout_height="102dp"
+        android:layout_below="@+id/minimalLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_toEndOf="@+id/layout1"
+        android:layout_toRightOf="@+id/layout1"
+        android:background="@drawable/highlight"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@mipmap/xbox_layout" />
+
 </RelativeLayout>

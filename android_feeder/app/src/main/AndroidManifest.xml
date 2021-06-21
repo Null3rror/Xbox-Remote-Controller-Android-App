@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -13,18 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidClient">
-        <activity android:name=".Layout"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity android:name=".MinimalLayout"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity android:name=".SensorLayout"
-            android:screenOrientation="landscape">
-        </activity>
-        <activity android:name=".CalibrationLayout"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".XboxLayout">
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".Layout"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".MinimalLayout"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".SensorLayout"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".CalibrationLayout"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

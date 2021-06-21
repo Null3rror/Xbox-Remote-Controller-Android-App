@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner user;
     TextView tvMessages;
     Button btnConnect;
-    ImageView layout1, minimalLayout, sensorLayout;
+    ImageView layout1, minimalLayout, sensorLayout , xboxLayout;
     String SERVER_IP;
     int SERVER_PORT;
     private String message;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         layout1 = findViewById(R.id.layout1);
         minimalLayout = findViewById(R.id.minimalLayout);
         sensorLayout = findViewById(R.id.sensorLayout);
+        xboxLayout = findViewById(R.id.xboxLayout);
 
 
         layout1.setOnClickListener(new View.OnClickListener(){
@@ -55,6 +56,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG", " minimalLayout");
                 connectToServer();
                 Intent layout = new Intent(MainActivity.this, MinimalLayout.class);
+                startActivity(layout);
+            }
+        });
+        xboxLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("TAG", " minimalLayout");
+                connectToServer();
+                Intent layout = new Intent(MainActivity.this, XboxLayout.class);
                 startActivity(layout);
             }
         });
