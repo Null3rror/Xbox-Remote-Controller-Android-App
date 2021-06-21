@@ -37,7 +37,7 @@ public class SensorLayout extends AppCompatActivity {
 
     private Button btnY, btnX, btnB, btnA, btnStart, btnBack, btnLT, btnLB, btnRT, btnRB, sensorButton;
     private Timer sendTimer;
-    private ImageView steerView;
+//    private ImageView steerView;
     VibrationService vibrationService;
 
     private SensorManager sensorManager;
@@ -84,7 +84,7 @@ public class SensorLayout extends AppCompatActivity {
 
         JoystickView leftJoystick = findViewById(R.id.joystickView);
 
-        steerView = findViewById(R.id.steerView);
+//        steerView = findViewById(R.id.steerView);
 
         btnA = findViewById(R.id.buttonA);
         btnB = findViewById(R.id.buttonB);
@@ -191,33 +191,31 @@ public class SensorLayout extends AppCompatActivity {
         public void run() {
             Connection connection = Connection.getInstance();
 //            int pivotX = steerView.getDrawable().getBounds().width()/2, pivotY = steerView.getDrawable().getBounds().height()/2;
-            Matrix matrix = new Matrix();
-            steerView.setScaleType(ImageView.ScaleType.MATRIX);
+//            Matrix matrix = new Matrix();
+//            steerView.setScaleType(ImageView.ScaleType.MATRIX);
 
             sendTimer = new Timer();
             sendTimer.scheduleAtFixedRate(new TimerTask() {
                                               @Override
                                               public void run() {
                                                   try {
-                                                      gyroscopeEventListener.GetData(readSensor);
-                                                      sensorDataX = readSensor ? (int)(-(gyroscopeEventListener.GetData(readSensor).z) * 2 * Constants.JOYSTICK_RANGE_NUM) : 0;
-
+                                                      readSensorData();
                                                       data.put("buttons", number);
                                                       data.put("left_X", sensorDataX);
                                                       data.put("left_Y", leftJoystickValues.get("Y"));
                                                       data.put("right_X", 0);
                                                       data.put("right_Y", 0);
 
-                                                      runOnUiThread(new Runnable() {
-
-                                                          @SuppressLint("SetTextI18n")
-                                                          @Override
-                                                          public void run() {
-                                                              matrix.postRotate((float) (Math.toDegrees(sensorDataX / Constants.JOYSTICK_RANGE_NUM)), steerView.getDrawable().getBounds().width()/2, steerView.getDrawable().getBounds().height()/2);
-                                                              steerView.setImageMatrix(matrix);
-                                                              // Stuff that updates the UI
-                                                          }
-                                                      });
+//                                                      runOnUiThread(new Runnable() {
+//
+//                                                          @SuppressLint("SetTextI18n")
+//                                                          @Override
+//                                                          public void run() {
+//                                                              matrix.postRotate((float) (Math.toDegrees(sensorDataX / Constants.JOYSTICK_RANGE_NUM)), steerView.getDrawable().getBounds().width()/2, steerView.getDrawable().getBounds().height()/2);
+//                                                              steerView.setImageMatrix(matrix);
+//                                                              // Stuff that updates the UI
+//                                                          }
+//                                                      });
 
                                                   } catch (JSONException e) {
                                                       e.printStackTrace();
@@ -252,4 +250,16 @@ public class SensorLayout extends AppCompatActivity {
         vibrationService.vibrate(Constants.VibrationRate, VibrationEffect.DEFAULT_AMPLITUDE);
     }
 
+    private int readSensorData(){
+        gyroscopeEventListener.GetData(readSensor);
+        if(readSensor){
+            sensorDataX = (int)(-gyroscopeEventListener.GetData(true).z * 1.9 * Constants.JOYSTICK_RANGE_NUM);
+            sensorDataX = (int)(Math.signum(sensorDataX) * 9500 + sensorDataX);
+            sensorDataX = Math.abs(sensorDataX) >  Constants.JOYSTICK_RANGE_NUM ? (int)(Math.signum(sensorDataX) * Constants.JOYSTICK_RANGE_NUM) : sensorDataX;
+        }else{
+            sensorDataX = 0;
+        }
+
+        return sensorDataX;
+    }
 }
