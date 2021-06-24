@@ -13,22 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidClient">
-        <activity
-            android:name=".XboxLayout">
-            android:screenOrientation="landscape"></activity>
+        <activity android:name=".ViewLayout" android:launchMode="singleInstance"></activity>
+        <activity android:name=".XboxLayout">
+            android:screenOrientation="landscape">
+        </activity>
         <activity
             android:name=".Layout"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MinimalLayout"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".SensorLayout"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CalibrationLayout"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".MainActivity">
+            android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,33 +1,31 @@
 package com.example.androidclient;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.annotation.SuppressLint;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-
 import com.example.androidclient.configs.Connection;
+import com.example.androidclient.configs.Constants;
+
+import org.json.JSONObject;
 
 
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
-    Thread Thread1 = null;
     EditText etIP, etPort;
-    Spinner user;
     TextView tvMessages;
     Button btnConnect;
-    ImageView layout1, minimalLayout, sensorLayout , xboxLayout;
     String SERVER_IP;
     int SERVER_PORT;
-    private String message;
+    boolean isClosedSocket;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,69 +33,81 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         etIP = findViewById(R.id.etIP);
         etPort = findViewById(R.id.etPort);
-        user = findViewById(R.id.spinner1);
         tvMessages = findViewById(R.id.tvMessages);
         btnConnect = findViewById(R.id.btnConnect);
-        layout1 = findViewById(R.id.layout1);
-        minimalLayout = findViewById(R.id.minimalLayout);
-        sensorLayout = findViewById(R.id.sensorLayout);
-        xboxLayout = findViewById(R.id.xboxLayout);
 
 
-        layout1.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                Log.d("layout", " layout1");
-                connectToServer();
-                Intent layout = new Intent(MainActivity.this, Layout.class);
-                startActivity(layout);
-            }
-        });
+        Connection connection = Connection.getInstance();
+        if(connection.getPort() != 0 ) {
+            isClosedSocket = true;
+            createRequestThread(0);
+            connection.closeConnection();
+        }
 
-        minimalLayout.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                Log.d("TAG", " minimalLayout");
-                connectToServer();
-                Intent layout = new Intent(MainActivity.this, MinimalLayout.class);
-                startActivity(layout);
-            }
-        });
-        xboxLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("TAG", " minimalLayout");
-                connectToServer();
-                Intent layout = new Intent(MainActivity.this, XboxLayout.class);
-                startActivity(layout);
-            }
-        });
 
-        sensorLayout.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                Log.d("TAG", " sensorLayout");
-                connectToServer();
-                Intent layout = new Intent(MainActivity.this, CalibrationLayout.class);
-                startActivity(layout);
-            }
-        });
-
-        btnConnect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.d("Connect", "Baba ro Layout ha click kon :/");
-            }
-        });
+        btnConnect.setOnClickListener(v -> connectToServer());
 
     }
 
+    class RequestThread implements Runnable {
+
+        @Override
+        public void run() {
+            Connection connection = Connection.getInstance();
+            if (isClosedSocket){
+                connection.send("end");
+            }else {
+                connection.send(Constants.Create_Connection_Message);
+                String message;
+                message = connection.receive();
+                try {
+                    JSONObject msg = new JSONObject(message);
+                    int port = msg.getInt("port");
+                    if (port > 0) {
+                        connection.createConnection(SERVER_IP, port);
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+            }
+
+        }
+    }
+    private void goToViewLayout(){
+        Intent layout = new Intent(MainActivity.this, ViewLayout.class);
+        startActivity(layout);
+    }
+
+
+
     private void connectToServer(){
+        isClosedSocket = false;
         tvMessages.setText("");
         SERVER_IP = etIP.getText().toString().trim();
         SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
-
         Connection connection = Connection.getInstance();
         connection.createConnection(SERVER_IP, SERVER_PORT);
+        createRequestThread(2000);
+        if (connection.getPort() != SERVER_PORT) {
+            tvMessages.setText("connected to server successfully");
+            goToViewLayout();
+            finish();
+        } else {
+                tvMessages.setText("Error connect to server");
+            }
+    }
+    private void createRequestThread(int timeout){
+        Thread requestThread = new Thread(new RequestThread());
+        requestThread.start();
+        try {
+            if (timeout > 0){
+                requestThread.join(timeout);
+            }else{
+                requestThread.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
-

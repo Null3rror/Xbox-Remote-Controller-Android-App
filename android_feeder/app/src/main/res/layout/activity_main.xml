@@ -1,11 +1,10 @@
 <?xml version = "1.0" encoding = "utf-8"?>
-<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools = "http://schemas.android.com/tools"
-    android:layout_width = "match_parent"
-    android:layout_height = "match_parent"
-    android:layout_margin = "16dp"
-    tools:context = ".MainActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/etIP"
@@ -24,19 +23,11 @@
         android:inputType="number"
         android:text="@string/Port" />
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etPort"
-        android:layout_marginTop="16dp"
-        android:entries="@array/user_arrays" />
-
     <Button
         android:id="@+id/btnConnect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner1"
+        android:layout_below="@+id/etPort"
         android:layout_gravity="center"
         android:layout_marginTop="32dp"
         android:text="Connect To Server" />
@@ -44,96 +35,13 @@
     <TextView
         android:id="@+id/tvMessages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="155dp"
         android:layout_below="@+id/btnConnect"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-6dp"
-        android:layout_marginBottom="38dp"
-        android:gravity ="center"
-        android:inputType="textMultiLine"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="376dp"
+        android:gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-    <ImageView
-        android:id="@+id/layout1"
-        android:layout_width="wrap_content"
-        android:layout_height="105dp"
-        android:layout_below="@+id/editTextTextPersonName"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/highlight"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@mipmap/dpad_layout" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvMessages"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="85dp"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="9dp"
-        android:gravity="center"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Layouts" />
-
-    <ImageView
-        android:id="@+id/minimalLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="105dp"
-        android:layout_below="@+id/editTextTextPersonName"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_toEndOf="@+id/layout1"
-        android:layout_toRightOf="@+id/layout1"
-        android:background="@drawable/highlight"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@mipmap/minimal_layout" />
-
-    <ImageView
-        android:id="@+id/sensorLayout"
-        android:layout_width="160dp"
-        android:layout_height="102dp"
-        android:layout_below="@+id/layout1"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/highlight"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@mipmap/sensor_layout" />
-
-    <ImageView
-        android:id="@+id/xboxLayout"
-        android:layout_width="160dp"
-        android:layout_height="102dp"
-        android:layout_below="@+id/minimalLayout"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_toEndOf="@+id/layout1"
-        android:layout_toRightOf="@+id/layout1"
-        android:background="@drawable/highlight"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@mipmap/xbox_layout" />
 
 </RelativeLayout>

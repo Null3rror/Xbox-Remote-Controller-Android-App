@@ -1,6 +1,7 @@
 package com.example.androidclient.configs;
 
 public class Constants {
+    public static final String Create_Connection_Message = "connect";
     public static final int BUTTON_A_BIT = 1;
     public static final int BUTTON_B_BIT = 2;
     public static final int BUTTON_X_BIT = 4;

@@ -26,6 +26,9 @@ public class Connection {
 
         return connection;
     }
+    public int getPort(){
+        return this.port;
+    }
 
     public void createConnection(String serverIp, int port){
         try {
@@ -37,6 +40,11 @@ public class Connection {
             e.printStackTrace();
         }
     }
+    public void closeConnection(){
+        this.port =0;
+        this.udpSocket.close();
+        connection = null;
+    }
 
     public void send(String message){
         byte[] buf = (message.toString()).getBytes();
@@ -44,6 +52,7 @@ public class Connection {
         DatagramPacket packet = new DatagramPacket(buf, buf.length, serverAddr, port);
         try {
             udpSocket.send(packet);
+
         } catch (IOException e) {
             Log.e("Udp:", "Socket Error:", e);
         }
