@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         Connection connection = Connection.getInstance();
         if(connection.getPort() != 0 ) {
+            etIP.setText(connection.getServerIp());
             isClosedSocket = true;
             createRequestThread(0);
             connection.closeConnection();

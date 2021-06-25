@@ -29,6 +29,9 @@ public class Connection {
     public int getPort(){
         return this.port;
     }
+    public String getServerIp(){
+        return this.serverIp;
+    }
 
     public void createConnection(String serverIp, int port){
         try {
