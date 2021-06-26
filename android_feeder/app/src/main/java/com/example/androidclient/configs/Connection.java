@@ -3,6 +3,8 @@ package com.example.androidclient.configs;
 
 import android.util.Log;
 
+import com.example.androidclient.MainActivity;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -43,11 +45,7 @@ public class Connection {
             e.printStackTrace();
         }
     }
-    public void closeConnection(){
-        this.port =0;
-        this.udpSocket.close();
-        connection = null;
-    }
+
 
     public void send(String message){
         byte[] buf = (message.toString()).getBytes();
@@ -77,6 +75,33 @@ public class Connection {
         }
 
         return receivedMessage;
+    }
+    public void closeConnection(){
+        if (this.port != 0) {
+            Thread requestThread = new Thread(new CloseConnectionThread());
+            requestThread.start();
+            try {
+                requestThread.join(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            this.port = 0;
+            this.udpSocket.close();
+            connection = null;
+        }
+    }
+
+    class CloseConnectionThread implements Runnable {
+
+        @Override
+        public void run() {
+            Connection connection = Connection.getInstance();
+                connection.send("end");
+                String message ="";
+            do {
+                message = connection.receive();
+            }while (!message.equals("bye"));
+        }
     }
 
 

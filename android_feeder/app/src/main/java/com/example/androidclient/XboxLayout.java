@@ -2,12 +2,10 @@ package com.example.androidclient;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -17,8 +15,8 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.androidclient.configs.Constants;
 import com.example.androidclient.configs.Connection;
+import com.example.androidclient.configs.Constants;
 import com.example.androidclient.service.VibrationService;
 
 import org.json.JSONException;
@@ -28,14 +26,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class XboxLayout extends AppCompatActivity {
 
     private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLT,btnLB,btnRT,btnRB;
     private ImageButton btnUp,btnDown,btnLeft,btnRight;
     private Timer sendTimer;
+    private boolean isBackPressed;
 
     VibrationService vibrationService;
 
@@ -68,6 +65,7 @@ public class XboxLayout extends AppCompatActivity {
 
         setContentView(R.layout.activity_xbox_layout);
 
+        isBackPressed = false;
         vibrationService = new VibrationService((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
         JoystickView leftJoystick = (JoystickView) findViewById(R.id.leftJoystickView);
         JoystickView rightJoystick = (JoystickView) findViewById(R.id.rightJoystickView);
@@ -126,14 +124,7 @@ public class XboxLayout extends AppCompatActivity {
         new Thread(new SendThread()).start();
     }
 
-    @Override
-    protected void onDestroy() {
 
-        super.onDestroy();
-        Log.d("stop", "onDestroy");
-        sendTimer.cancel();
-        vibrationService.cancel();
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -237,5 +228,18 @@ public class XboxLayout extends AppCompatActivity {
 
     private void VibrateBtn() {
         vibrationService.vibrate(Constants.VibrationRate, VibrationEffect.DEFAULT_AMPLITUDE);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackPressed = true;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sendTimer.cancel();
+        vibrationService.cancel();
+        if (!isBackPressed)
+            Connection.getInstance().closeConnection();
     }
 }

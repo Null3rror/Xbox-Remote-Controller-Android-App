@@ -33,6 +33,7 @@ public class MinimalLayout extends AppCompatActivity {
 
     private Button btnY, btnX, btnB, btnA, btnStart, btnBack, btnLT, btnLB, btnRT, btnRB;
 
+    private boolean isBackPressed;
     private Timer sendTimer;
     VibrationService vibrationService;
 //    Vibrator vibrator;
@@ -66,6 +67,7 @@ public class MinimalLayout extends AppCompatActivity {
 
         setContentView(R.layout.activity_minimal_layout);
 
+        isBackPressed = false;
         vibrationService = new VibrationService((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
         JoystickView leftJoystick = (JoystickView) findViewById(R.id.leftJoystickView);
         JoystickView rightJoystick = (JoystickView) findViewById(R.id.rightJoystickView);
@@ -116,12 +118,18 @@ public class MinimalLayout extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackPressed = true;
+    }
+    @Override
     protected void onDestroy() {
-
         super.onDestroy();
-        Log.d("stop", "onDestroy");
+        Log.d("stop", "onDestroy Layout");
         sendTimer.cancel();
         vibrationService.cancel();
+        if (!isBackPressed)
+            Connection.getInstance().closeConnection();
     }
 
     @Override
@@ -159,7 +167,7 @@ public class MinimalLayout extends AppCompatActivity {
             String message = "";
             do {
                 message = connection.receive();
-            } while (!message.equals("bye"));
+            }while (!message.equals("bye"));
         }
     }
 

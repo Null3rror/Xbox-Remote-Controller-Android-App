@@ -68,52 +68,28 @@
         android:id="@+id/buttonBack"
         android:layout_width="50dp"
         android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
-        android:layout_marginBottom="120dp"
         android:textSize="10sp"
         app:backgroundTint="#000000"
         app:icon="?attr/actionModeCopyDrawable"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRS"
-        app:layout_constraintEnd_toStartOf="@+id/buttonStart" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonStart"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/buttonRS"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:text="RS(12)"
-        android:textSize="10sp"
-        app:backgroundTint="#000000"
-        app:layout_constraintEnd_toStartOf="@+id/buttonX"
-        app:layout_constraintTop_toBottomOf="@+id/buttonStart" />
-
-    <Button
-        android:id="@+id/buttonLS"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="44dp"
-        android:text="LS(11)"
-        android:textSize="10sp"
-        app:backgroundTint="#000000"
-        app:layout_constraintStart_toEndOf="@+id/leftJoystickView"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBack" />
 
     <Button
         android:id="@+id/buttonStart"
         android:layout_width="50dp"
         android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="120dp"
         android:textSize="10sp"
         app:backgroundTint="#000000"
         app:icon="@android:drawable/ic_media_play"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRS"
-        app:layout_constraintEnd_toStartOf="@+id/buttonX" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonX"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonRT"

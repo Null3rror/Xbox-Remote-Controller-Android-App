@@ -13,8 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidClient">
-        <activity android:name=".ViewLayout" android:launchMode="singleInstance"></activity>
-        <activity android:name=".XboxLayout">
+        <activity
+            android:name=".ViewLayout"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".XboxLayout"
             android:screenOrientation="landscape">
         </activity>
         <activity
@@ -29,7 +33,7 @@
         <activity
             android:name=".CalibrationLayout"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity" android:launchMode="singleInstance">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

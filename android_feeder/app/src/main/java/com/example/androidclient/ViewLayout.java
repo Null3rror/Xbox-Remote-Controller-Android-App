@@ -10,12 +10,13 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidclient.configs.Connection;
+
 
 @SuppressLint("SetTextI18n")
 public class ViewLayout extends AppCompatActivity {
 
-
-
+    private boolean isBackPressed = false;
     ImageView layout1, minimalLayout, sensorLayout , xboxLayout;
 
     @Override
@@ -29,6 +30,7 @@ public class ViewLayout extends AppCompatActivity {
 
         setContentView(R.layout.activity_view_layout);
 
+        isBackPressed = false;
         layout1 = findViewById(R.id.layout1);
         minimalLayout = findViewById(R.id.minimalLayout);
         sensorLayout = findViewById(R.id.sensorLayout);
@@ -62,9 +64,14 @@ public class ViewLayout extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent mainActivity = new Intent(ViewLayout.this, MainActivity.class);
-        startActivity(mainActivity);
-        finish();
+        super.onBackPressed();
+        isBackPressed = true;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!isBackPressed)
+            Connection.getInstance().closeConnection();
     }
 
 }

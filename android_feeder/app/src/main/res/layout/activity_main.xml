@@ -35,13 +35,20 @@
     <TextView
         android:id="@+id/tvMessages"
         android:layout_width="match_parent"
-        android:layout_height="155dp"
+        android:layout_height="121dp"
         android:layout_below="@+id/btnConnect"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="-2dp"
-        android:layout_marginBottom="376dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"
+        android:text="Close App" />
 
 
 </RelativeLayout>

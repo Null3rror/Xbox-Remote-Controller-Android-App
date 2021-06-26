@@ -10,13 +10,14 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidclient.configs.Connection;
 import com.example.androidclient.configs.Vector4;
 import com.example.androidclient.service.AccelerometerSensor;
 import com.example.androidclient.service.GyroscopeSensor;
 import com.example.androidclient.service.SensorBase;
 
 public class CalibrationLayout extends AppCompatActivity {
-
+    private boolean isBackPressed;
     Button captureBtn;
     private SensorManager sensorManager;
     private SensorBase gyroscopeEventListener;
@@ -33,6 +34,8 @@ public class CalibrationLayout extends AppCompatActivity {
 
         gyroscopeEventListener = new GyroscopeSensor(sensorManager);
         accelerometerEventListener = new AccelerometerSensor(sensorManager);
+
+        isBackPressed = false;
 
         gyroscopeData = gyroscopeEventListener.GetData(true);
         accelormeterData = accelerometerEventListener.GetData(false);
@@ -55,10 +58,17 @@ public class CalibrationLayout extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackPressed = true;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("stop", "onDestroy");
+        if (!isBackPressed)
+            Connection.getInstance().closeConnection();
     }
+
+
 }

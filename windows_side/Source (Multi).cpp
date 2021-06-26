@@ -24,6 +24,7 @@ void run(int portIndex)
 	char buf[BUFLEN];
 	WSADATA wsa;
 	slen = sizeof(si_other);
+	string message;
 
 	//Initialise winsock
 	printf("\nInitialising Winsock...");
@@ -75,6 +76,13 @@ void run(int portIndex)
 		//terminate connection
 		if (strcmp(buf, "end") == 0)
 		{
+			message = "bye";
+			copy(message.begin(), message.end(), buf);
+			if (sendto(s, buf, message.length(), 0, (struct sockaddr*)&si_other, slen) == SOCKET_ERROR)
+			{
+				printf("sendto() failed with error code : %d", WSAGetLastError());
+				exit(EXIT_FAILURE);
+			}
 			used_port[portIndex] = false;
 			break;
 		}

@@ -3,6 +3,7 @@ package com.example.androidclient;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,10 +21,10 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     EditText etIP, etPort;
     TextView tvMessages;
-    Button btnConnect;
+    Button btnConnect, btnClose;
     String SERVER_IP;
     int SERVER_PORT;
-    boolean isClosedSocket;
+
 
 
     @Override
@@ -35,43 +36,34 @@ public class MainActivity extends AppCompatActivity {
         etPort = findViewById(R.id.etPort);
         tvMessages = findViewById(R.id.tvMessages);
         btnConnect = findViewById(R.id.btnConnect);
-
-
-        Connection connection = Connection.getInstance();
-        if(connection.getPort() != 0 ) {
-            etIP.setText(connection.getServerIp());
-            isClosedSocket = true;
-            createRequestThread(0);
-            connection.closeConnection();
-        }
+        btnClose = findViewById(R.id.btnClose);
 
 
         btnConnect.setOnClickListener(v -> connectToServer());
+        btnClose.setOnClickListener(v -> {
+            finish();
+            System.exit(0);
+        });
 
     }
 
-    class RequestThread implements Runnable {
+    class RequestConnectionThread implements Runnable {
 
         @Override
         public void run() {
             Connection connection = Connection.getInstance();
-            if (isClosedSocket){
-                connection.send("end");
-            }else {
-                connection.send(Constants.Create_Connection_Message);
-                String message;
-                message = connection.receive();
-                try {
-                    JSONObject msg = new JSONObject(message);
-                    int port = msg.getInt("port");
-                    if (port > 0) {
-                        connection.createConnection(SERVER_IP, port);
-                    }
-                } catch (Throwable t) {
-                    t.printStackTrace();
+            connection.send(Constants.Create_Connection_Message);
+            String message;
+            message = connection.receive();
+            try {
+                JSONObject msg = new JSONObject(message);
+                int port = msg.getInt("port");
+                if (port > 0) {
+                    connection.createConnection(SERVER_IP, port);
                 }
+            } catch (Throwable t) {
+                t.printStackTrace();
             }
-
         }
     }
     private void goToViewLayout(){
@@ -81,24 +73,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void connectToServer(){
-        isClosedSocket = false;
-        tvMessages.setText("");
+    private void connectToServer() {
         SERVER_IP = etIP.getText().toString().trim();
         SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
         Connection connection = Connection.getInstance();
-        connection.createConnection(SERVER_IP, SERVER_PORT);
-        createRequestThread(2000);
-        if (connection.getPort() != SERVER_PORT) {
-            tvMessages.setText("connected to server successfully");
-            goToViewLayout();
-            finish();
-        } else {
+        if (connection.getPort() == 0) {
+            connection.createConnection(SERVER_IP, SERVER_PORT);
+            createRequestThread(2000);
+            if (connection.getPort() != SERVER_PORT) {
+                tvMessages.setText("connected to server successfully");
+                goToViewLayout();
+            } else {
                 tvMessages.setText("Error connect to server");
             }
+        }else {
+            goToViewLayout();
+        }
     }
     private void createRequestThread(int timeout){
-        Thread requestThread = new Thread(new RequestThread());
+        Thread requestThread = new Thread(new RequestConnectionThread());
         requestThread.start();
         try {
             if (timeout > 0){
@@ -109,6 +102,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+            Connection.getInstance().closeConnection();
     }
 
 }

@@ -35,6 +35,7 @@ import java.util.TimerTask;
 
 public class SensorLayout extends AppCompatActivity {
 
+    private boolean isBackPressed;
     private Button btnY, btnX, btnB, btnA, btnStart, btnBack, btnLT, btnLB, btnRT, btnRB, sensorButton;
     private Timer sendTimer;
 //    private ImageView steerView;
@@ -71,6 +72,7 @@ public class SensorLayout extends AppCompatActivity {
 
         setContentView(R.layout.activity_sensor_layout);
 
+        isBackPressed = false;
         vibrationService = new VibrationService((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         gyroscopeEventListener = new GyroscopeSensor(sensorManager);
@@ -136,14 +138,20 @@ public class SensorLayout extends AppCompatActivity {
         new Thread(new SendThread()).start();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackPressed = true;
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("stop", "onDestroy");
         sendTimer.cancel();
         vibrationService.cancel();
+        if (!isBackPressed)
+            Connection.getInstance().closeConnection();
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -180,7 +188,7 @@ public class SensorLayout extends AppCompatActivity {
             String message = "";
             do {
                 message = connection.receive();
-            } while (!message.equals("bye"));
+            }while (!message.equals("bye"));
         }
     }
 
