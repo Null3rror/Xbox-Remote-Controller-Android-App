@@ -3,10 +3,6 @@ package com.example.androidclient.configs;
 
 import android.util.Log;
 
-import com.example.androidclient.MainActivity;
-
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -48,7 +44,7 @@ public class Connection {
 
 
     public void send(String message){
-        byte[] buf = (message.toString()).getBytes();
+        byte[] buf = (message).getBytes();
 
         DatagramPacket packet = new DatagramPacket(buf, buf.length, serverAddr, port);
         try {

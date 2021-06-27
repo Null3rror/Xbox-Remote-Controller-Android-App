@@ -2,8 +2,8 @@ package com.example.androidclient;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -74,15 +74,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void connectToServer() {
+        tvMessages.setText("");
         SERVER_IP = etIP.getText().toString().trim();
         SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
         Connection connection = Connection.getInstance();
-        if (connection.getPort() == 0) {
+        if(connection.getPort() == 0) {
             connection.createConnection(SERVER_IP, SERVER_PORT);
             createRequestThread(2000);
             if (connection.getPort() != SERVER_PORT) {
                 tvMessages.setText("connected to server successfully");
                 goToViewLayout();
+                disableEditText(etIP);
+                disableEditText(etPort);
             } else {
                 tvMessages.setText("Error connect to server");
             }
@@ -102,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    private void disableEditText(EditText editText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+        editText.setBackgroundColor(Color.TRANSPARENT);
     }
 
 
