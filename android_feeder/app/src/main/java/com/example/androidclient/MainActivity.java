@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             Connection connection = Connection.getInstance();
             connection.createConnection(SERVER_IP, SERVER_PORT);
-            connection.send("connect");
+            connection.send(Constants.Create_Connection_Message);
             String message;
             message = connection.receive();
             try {
                 JSONObject msg = new JSONObject(message);
-                int port = msg.getInt("port");
+                int port = msg.getInt(Constants.Reply_Message_Port);
                 if (port > 0) {
-                    connection.setIndex(msg.getInt("index"));
+                    connection.setIndex(msg.getInt(Constants.Reply_Message_Index));
                     connection.createConnection(SERVER_IP, port);
                 }
             } catch (Throwable t) {

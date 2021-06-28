@@ -188,7 +188,7 @@ public class SensorLayout extends AppCompatActivity {
             String message = "";
             do {
                 message = connection.receive();
-            }while (!message.equals("bye"));
+            }while (!message.equals(Constants.End_Connection_Reply_Message));
         }
     }
 

@@ -42,8 +42,8 @@ public class Connection {
             this.serverIp = serverIp;
             this.udpSocket = new DatagramSocket(port);
             this.serverAddr = InetAddress.getByName(serverIp);
-        } catch (SocketException | UnknownHostException e) {
-            e.printStackTrace();
+        } catch (Exception eٍٍ) {
+            Log.d("Socket Error" ,"something went wrong");
         }
     }
 
@@ -99,11 +99,11 @@ public class Connection {
         @Override
         public void run() {
             Connection connection = Connection.getInstance();
-                connection.send("end");
+                connection.send(Constants.End_Connection_Message);
                 String message ="";
             do {
                 message = connection.receive();
-            }while (!message.equals("bye"));
+            }while (!message.equals(Constants.End_Connection_Reply_Message));
         }
     }
 
