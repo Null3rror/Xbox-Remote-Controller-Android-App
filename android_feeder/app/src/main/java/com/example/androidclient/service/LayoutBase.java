@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.androidclient.MainActivity;
 import com.example.androidclient.R;
 import com.example.androidclient.configs.Connection;
 import com.example.androidclient.configs.Constants;
@@ -23,9 +25,9 @@ public abstract class LayoutBase extends AppCompatActivity {
     
     protected Timer sendTimer;
     protected boolean isBackPressed;
-
     VibrationService vibrationService;
     protected int number = 0;
+    Thread receiveThread;
     
     public static final int SCREEN_ORIENTATION_SENSOR_LANDSCAPE = 6;
 
@@ -41,9 +43,23 @@ public abstract class LayoutBase extends AppCompatActivity {
 
         setRequestedOrientation(SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
+        receiveThread = new Thread(new ReceiveThread());
+        receiveThread.start();
         isBackPressed = false;
         vibrationService = new VibrationService((Vibrator) getSystemService(Context.VIBRATOR_SERVICE));
 
+    }
+
+    class ReceiveThread implements Runnable {
+
+        @Override
+        public void run() {
+            Connection connection = Connection.getInstance();
+            String message = "";
+            do {
+                message = connection.receive();
+            }while (!message.equals(Constants.End_Connection_Reply_Message));
+        }
     }
 
     @Override
@@ -117,6 +133,10 @@ public abstract class LayoutBase extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         sendTimer.cancel();
+        if (Thread.activeCount() != 0){
+            receiveThread.interrupt();
+            receiveThread = null;
+        }
         vibrationService.cancel();
         if (!isBackPressed)
             Connection.getInstance().closeConnection();

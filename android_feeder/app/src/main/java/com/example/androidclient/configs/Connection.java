@@ -13,9 +13,9 @@ import java.net.UnknownHostException;
 public class Connection {
     private static Connection connection = null;
     private static int index = -1;
-    private DatagramSocket udpSocket;
+    private DatagramSocket udpSocket = null;
     private InetAddress serverAddr;
-    private int port;
+    private int port = 0;
     private String serverIp = "";
 
     public String getServerIp(){
@@ -33,7 +33,7 @@ public class Connection {
         return index > -1;
     }
     public void setIndex(int indexOfConnection){
-         index = indexOfConnection;
+        index = indexOfConnection;
     }
 
     public void createConnection(String serverIp, int port){
@@ -57,6 +57,9 @@ public class Connection {
 
         } catch (IOException e) {
             Log.e("Udp:", "Socket Error:", e);
+        }catch (Exception eٍٍ) {
+            Log.d("Send Error" ,"something went wrong");
+
         }
     }
 
@@ -73,6 +76,8 @@ public class Connection {
             Log.e("Udp:", "Socket Error:", e);
         } catch (IOException e) {
             Log.e("Udp Receive:", "IO Error:", e);
+        }catch (Exception eٍٍ) {
+            Log.d("Receive Error" ,"something went wrong");
         }
 
         return receivedMessage;
@@ -83,11 +88,12 @@ public class Connection {
             requestThread.start();
             try {
                 requestThread.join(3000);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (this.port !=0){
+        if (this.udpSocket != null){
             this.port = 0;
             this.udpSocket.close();
         }
@@ -99,11 +105,11 @@ public class Connection {
         @Override
         public void run() {
             Connection connection = Connection.getInstance();
-                connection.send(Constants.End_Connection_Message);
-                String message ="";
+            connection.send(Constants.End_Connection_Message);
+            String message ="";
             do {
                 message = connection.receive();
-            }while (!message.equals(Constants.End_Connection_Reply_Message));
+            }while (!message.equals(Constants.End_Connection_Reply_Message) && !connection.udpSocket.isClosed());
         }
     }
 

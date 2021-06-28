@@ -4,14 +4,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import com.example.androidclient.configs.Connection;
 import com.example.androidclient.configs.Constants;
 import com.example.androidclient.service.LayoutBase;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -97,24 +94,8 @@ public class Layout extends LayoutBase {
             }
         }, 16);
 
-        new Thread(new ReceiveThread()).start();
+
         new Thread(new SendThread()).start();
-    }
-
-
-
-
-
-    class ReceiveThread implements Runnable {
-
-        @Override
-        public void run() {
-            Connection connection = Connection.getInstance();
-            String message = "";
-            do {
-                message = connection.receive();
-            }while (!message.equals(Constants.End_Connection_Reply_Message));
-        }
     }
 
     class SendThread implements Runnable {
@@ -145,9 +126,5 @@ public class Layout extends LayoutBase {
 
         }
     }
-
-
-
-
 
 }

@@ -92,23 +92,7 @@ public class XboxLayout extends LayoutBase {
             }
         }, 16);
 
-        new Thread(new ReceiveThread()).start();
         new Thread(new SendThread()).start();
-    }
-
-
-
-
-    class ReceiveThread implements Runnable {
-
-        @Override
-        public void run() {
-            Connection connection = Connection.getInstance();
-            String message = "";
-            do {
-                message = connection.receive();
-            }while (!message.equals(Constants.End_Connection_Reply_Message));
-        }
     }
 
     class SendThread implements Runnable {
