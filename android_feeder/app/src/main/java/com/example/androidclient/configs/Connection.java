@@ -13,9 +13,9 @@ import java.net.UnknownHostException;
 public class Connection {
     private static Connection connection = null;
     private static int index = -1;
-    private DatagramSocket udpSocket;
+    private DatagramSocket udpSocket = null;
     private InetAddress serverAddr;
-    private int port;
+    private int port = 0;
     private String serverIp = "";
 
     public String getServerIp(){
@@ -57,6 +57,9 @@ public class Connection {
 
         } catch (IOException e) {
             Log.e("Udp:", "Socket Error:", e);
+        }catch (Exception eٍٍ) {
+            Log.d("Send Error" ,"something went wrong");
+
         }
     }
 
@@ -85,11 +88,12 @@ public class Connection {
             requestThread.start();
             try {
                 requestThread.join(3000);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (this.port !=0){
+        if (this.udpSocket != null){
             this.port = 0;
             this.udpSocket.close();
         }
@@ -105,7 +109,7 @@ public class Connection {
                 String message ="";
             do {
                 message = connection.receive();
-            }while (!message.equals(Constants.End_Connection_Reply_Message));
+            }while (!message.equals(Constants.End_Connection_Reply_Message) && !connection.udpSocket.isClosed());
         }
     }
 
