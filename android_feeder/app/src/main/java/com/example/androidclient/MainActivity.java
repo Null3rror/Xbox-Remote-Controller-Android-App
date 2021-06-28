@@ -16,6 +16,9 @@ import com.example.androidclient.configs.Constants;
 
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 @SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
     String SERVER_IP;
     int SERVER_PORT;
     Thread requestThread;
+
+    private static final String PATTERN =
+            "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+                    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+
+    public static boolean validateIP(final String ip){
+        Pattern pattern = Pattern.compile(PATTERN);
+        Matcher matcher = pattern.matcher(ip);
+        return matcher.matches();
+    }
 
 
 
@@ -83,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
         SERVER_IP = etIP.getText().toString().trim();
         SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
         Connection connection = Connection.getInstance();
+        if (!validateIP(SERVER_IP)){
+            tvMessages.setText("Error wrong IP pattern");
+            return;
+        }
         if(!connection.isIndexed()) {
             String connectionIp = connection.getServerIp();
             if (!connectionIp.equals(SERVER_IP) && !connectionIp.isEmpty()) {

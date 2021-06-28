@@ -73,6 +73,8 @@ public class Connection {
             Log.e("Udp:", "Socket Error:", e);
         } catch (IOException e) {
             Log.e("Udp Receive:", "IO Error:", e);
+        }catch (Exception eٍٍ) {
+            Log.d("Receive Error" ,"something went wrong");
         }
 
         return receivedMessage;
