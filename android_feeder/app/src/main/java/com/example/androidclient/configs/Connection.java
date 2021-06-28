@@ -12,11 +12,15 @@ import java.net.UnknownHostException;
 
 public class Connection {
     private static Connection connection = null;
+    private static int index = -1;
     private DatagramSocket udpSocket;
     private InetAddress serverAddr;
     private int port;
-    private String serverIp;
+    private String serverIp = "";
 
+    public String getServerIp(){
+        return this.serverIp;
+    }
     public static Connection getInstance(){
         if(connection == null){
             connection = new Connection();
@@ -24,17 +28,18 @@ public class Connection {
 
         return connection;
     }
-    public int getPort(){
-        return this.port;
+
+    public boolean isIndexed(){
+        return index > -1;
     }
-    public String getServerIp(){
-        return this.serverIp;
+    public void setIndex(int indexOfConnection){
+         index = indexOfConnection;
     }
 
     public void createConnection(String serverIp, int port){
         try {
-            this.serverIp = serverIp;
             this.port = port;
+            this.serverIp = serverIp;
             this.udpSocket = new DatagramSocket(port);
             this.serverAddr = InetAddress.getByName(serverIp);
         } catch (SocketException | UnknownHostException e) {
@@ -73,7 +78,7 @@ public class Connection {
         return receivedMessage;
     }
     public void closeConnection(){
-        if (this.port != 0) {
+        if (isIndexed()) {
             Thread requestThread = new Thread(new CloseConnectionThread());
             requestThread.start();
             try {
@@ -81,10 +86,12 @@ public class Connection {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if (this.port !=0){
             this.port = 0;
             this.udpSocket.close();
-            connection = null;
         }
+        connection = null;
     }
 
     class CloseConnectionThread implements Runnable {

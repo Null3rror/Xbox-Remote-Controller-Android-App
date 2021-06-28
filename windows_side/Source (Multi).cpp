@@ -168,7 +168,7 @@ int main()
 
 			if (portIndex != -1)
 			{
-				message = "{\"port\":\""+ to_string(port_number[portIndex]) + "\"}";
+				message = "{\"port\":\""+ to_string(port_number[portIndex]) + "\",\"index\":\"" + to_string(portIndex) + "\"}";
 				copy(message.begin(), message.end(), buf);
 				if (sendto(s, buf, message.length(), 0, (struct sockaddr*)&si_other, slen) == SOCKET_ERROR)
 				{

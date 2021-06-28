@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnConnect, btnClose;
     String SERVER_IP;
     int SERVER_PORT;
+    Thread requestThread;
 
 
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         btnClose = findViewById(R.id.btnClose);
 
 
+
         btnConnect.setOnClickListener(v -> connectToServer());
         btnClose.setOnClickListener(v -> {
             finish();
@@ -52,13 +54,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             Connection connection = Connection.getInstance();
-            connection.send(Constants.Create_Connection_Message);
+            connection.createConnection(SERVER_IP, SERVER_PORT);
+            connection.send("connect");
             String message;
             message = connection.receive();
             try {
                 JSONObject msg = new JSONObject(message);
                 int port = msg.getInt("port");
                 if (port > 0) {
+                    connection.setIndex(msg.getInt("index"));
                     connection.createConnection(SERVER_IP, port);
                 }
             } catch (Throwable t) {
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private void goToViewLayout(){
         Intent layout = new Intent(MainActivity.this, ViewLayout.class);
         startActivity(layout);
@@ -78,34 +83,37 @@ public class MainActivity extends AppCompatActivity {
         SERVER_IP = etIP.getText().toString().trim();
         SERVER_PORT = Integer.parseInt(etPort.getText().toString().trim());
         Connection connection = Connection.getInstance();
-        if(connection.getPort() == 0) {
-            connection.createConnection(SERVER_IP, SERVER_PORT);
-            createRequestThread(2000);
-            if (connection.getPort() != SERVER_PORT) {
-                tvMessages.setText("connected to server successfully");
-                goToViewLayout();
-                disableEditText(etIP);
-                disableEditText(etPort);
-            } else {
-                tvMessages.setText("Error connect to server");
+        if(!connection.isIndexed()) {
+            String connectionIp = connection.getServerIp();
+            if (!connectionIp.equals(SERVER_IP) && !connectionIp.isEmpty()) {
+                connection.closeConnection();
             }
-        }else {
+            requestThread = new Thread(new RequestConnectionThread());
+            requestThread.start();
+            try {
+                requestThread.join(1000);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (connection.isIndexed()) {
+            tvMessages.setText("connected to server successfully");
             goToViewLayout();
-        }
-    }
-    private void createRequestThread(int timeout){
-        Thread requestThread = new Thread(new RequestConnectionThread());
-        requestThread.start();
-        try {
-            if (timeout > 0){
-                requestThread.join(timeout);
-            }else{
-                requestThread.join();
+            disableEditText(etIP);
+            disableEditText(etPort);
+        } else {
+            tvMessages.setText("Error connect to server");
+            if (Thread.activeCount() != 0){
+                requestThread.interrupt();
+                requestThread = null;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
         }
+
     }
+
     private void disableEditText(EditText editText) {
         editText.setFocusable(false);
         editText.setEnabled(false);
@@ -118,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-            Connection.getInstance().closeConnection();
-    }
+        Connection.getInstance().closeConnection();
 
+    }
 }
