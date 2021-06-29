@@ -141,19 +141,24 @@ public class GunLayout extends LayoutBase {
 
     private void readSensorData(){
         Vector4 accData = accelerometerEventListener.GetData(true);
+
         reload(accData.x);
         changeGun(accData.y);
     }
 
     private void reload(float accY){
         if(Math.abs(accY) > 15){
-            number ^= Constants.BUTTON_X_BIT;
+            number |= Constants.BUTTON_X_BIT;
+        }else if(Math.abs(accY) > 2){
+            number &= ~Constants.BUTTON_X_BIT;
         }
     }
 
     private void changeGun(float accX){
         if(Math.abs(accX) > 17){
             number ^= Constants.BUTTON_Y_BIT;
+        }else if(Math.abs(accX) > 2){
+            number &= ~Constants.BUTTON_Y_BIT;
         }
     }
 
