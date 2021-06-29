@@ -17,7 +17,7 @@ import com.example.androidclient.configs.Connection;
 public class ViewLayout extends AppCompatActivity {
 
     private boolean isBackPressed = false;
-    ImageView layout1, minimalLayout, sensorLayout , xboxLayout;
+    ImageView layout1, minimalLayout, sensorLayout, xboxLayout, gunLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class ViewLayout extends AppCompatActivity {
         minimalLayout = findViewById(R.id.minimalLayout);
         sensorLayout = findViewById(R.id.sensorLayout);
         xboxLayout = findViewById(R.id.xboxLayout);
+        gunLayout = findViewById(R.id.gunLayout);
 
 
         layout1.setOnClickListener(v -> {
@@ -57,8 +58,17 @@ public class ViewLayout extends AppCompatActivity {
         sensorLayout.setOnClickListener(v -> {
             Log.d("TAG", " sensorLayout");
             Intent layout = new Intent(ViewLayout.this, CalibrationLayout.class);
+            layout.putExtra("layout", "driving");
             startActivity(layout);
         });
+        gunLayout.setOnClickListener(v -> {
+            Log.d("TAG", " sensorLayout");
+            Intent layout = new Intent(ViewLayout.this, CalibrationLayout.class);
+            layout.putExtra("layout", "shooter");
+            startActivity(layout);
+        });
+
+
 
     }
 

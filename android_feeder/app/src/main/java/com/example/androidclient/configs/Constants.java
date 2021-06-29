@@ -6,6 +6,7 @@ public class Constants {
     public static final String Reply_Message_Index = "index";
     public static final String End_Connection_Message = "end";
     public static final String End_Connection_Reply_Message = "bye";
+    public static final String Vibration_Message = "vib";
     public static final int BUTTON_A_BIT = 1;
     public static final int BUTTON_B_BIT = 2;
     public static final int BUTTON_X_BIT = 4;
@@ -24,7 +25,8 @@ public class Constants {
     public static final int BUTTON_LB_BIT = 32768;
     public static final int BUTTON_13_BIT = 65536;
     public static final double JOYSTICK_RANGE_NUM = Math.pow(2, 15) - 1;
-    public static int VibrationRate = 32;
+    public static int VibrationRateBtn = 32;
+    public static int VibrationRateGame = 100;
     public static final float ns2s = 1.0f / 1000000000.0f;
 }
 

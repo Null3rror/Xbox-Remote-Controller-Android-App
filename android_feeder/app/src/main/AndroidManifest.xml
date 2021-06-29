@@ -15,12 +15,13 @@
         android:theme="@style/Theme.AndroidClient">
         <activity
             android:name=".ViewLayout"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GunLayout"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".XboxLayout"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Layout"
             android:screenOrientation="landscape" />

@@ -12,12 +12,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.androidclient.MainActivity;
 import com.example.androidclient.R;
 import com.example.androidclient.configs.Connection;
 import com.example.androidclient.configs.Constants;
-
+import org.json.JSONObject;
 import java.util.Timer;
 
 public abstract class LayoutBase extends AppCompatActivity {
@@ -58,6 +56,15 @@ public abstract class LayoutBase extends AppCompatActivity {
             String message = "";
             do {
                 message = connection.receive();
+                try {
+                    JSONObject msg = new JSONObject(message);
+                    int vibration = msg.getInt(Constants.Vibration_Message);
+                    if (vibration > 5000) {
+                        vibrationService.vibrate(Constants.VibrationRateGame, VibrationEffect.DEFAULT_AMPLITUDE);
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
             }while (!message.equals(Constants.End_Connection_Reply_Message));
         }
     }
@@ -122,7 +129,7 @@ public abstract class LayoutBase extends AppCompatActivity {
 
 
     protected void VibrateBtn() {
-        vibrationService.vibrate(Constants.VibrationRate, VibrationEffect.DEFAULT_AMPLITUDE);
+        vibrationService.vibrate(Constants.VibrationRateBtn, VibrationEffect.DEFAULT_AMPLITUDE);
     }
     @Override
     public void onBackPressed() {

@@ -47,7 +47,12 @@ public class CalibrationLayout extends AppCompatActivity {
                     gyroscopeData = gyroscopeData.add(gyroscopeEventListener.GetData(true));
                     accelormeterData = accelormeterData.add(accelerometerEventListener.GetData(true));
                 }
-                Intent layout = new Intent(CalibrationLayout.this, SensorLayout.class);
+                Intent layout;
+                if(getIntent().getStringExtra("layout").equals("driving")) {
+                    layout = new Intent(CalibrationLayout.this, SensorLayout.class);
+                }else{
+                    layout = new Intent(CalibrationLayout.this, GunLayout.class);
+                }
                 layout.putExtra("gyroX", gyroscopeData.x/1000);
                 layout.putExtra("gyroY", gyroscopeData.y/1000);
                 layout.putExtra("gyroZ", gyroscopeData.z/1000);
