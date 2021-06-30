@@ -52,15 +52,14 @@ public class MainActivity extends AppCompatActivity {
         etPort = findViewById(R.id.etPort);
         tvMessages = findViewById(R.id.tvMessages);
         btnConnect = findViewById(R.id.btnConnect);
-        btnClose = findViewById(R.id.btnClose);
 
 
 
         btnConnect.setOnClickListener(v -> connectToServer());
-        btnClose.setOnClickListener(v -> {
-            finish();
-            System.exit(0);
-        });
+//        btnClose.setOnClickListener(v -> {
+//            finish();
+//            System.exit(0);
+//        });
 
     }
 

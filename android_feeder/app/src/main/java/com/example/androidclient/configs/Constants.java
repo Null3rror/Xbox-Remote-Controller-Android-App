@@ -25,8 +25,9 @@ public class Constants {
     public static final int BUTTON_LB_BIT = 32768;
     public static final int BUTTON_13_BIT = 65536;
     public static final double JOYSTICK_RANGE_NUM = Math.pow(2, 15) - 1;
-    public static int VibrationRateBtn = 32;
+    public static int VibrationRateBtn = 40;
     public static int VibrationRateGame = 100;
     public static final float ns2s = 1.0f / 1000000000.0f;
+    public static final int fpsRate = 10;
 }
 

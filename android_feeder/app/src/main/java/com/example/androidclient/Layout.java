@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.androidclient.configs.Constants.fpsRate;
+
 public class Layout extends LayoutBase {
 
     private Button btnY,btnX,btnB,btnA,btnStart,btnBack,btnLT,btnLB,btnRT,btnRB;
@@ -83,7 +85,7 @@ public class Layout extends LayoutBase {
                 leftJoystickValues.put("X", (int)(strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 leftJoystickValues.put("Y", (int)(strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        }, 16);
+        }, fpsRate);
 
 
         rightJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
@@ -92,7 +94,7 @@ public class Layout extends LayoutBase {
                 rightJoystickValues.put("X", (int)(strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 rightJoystickValues.put("Y", (int)(strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        }, 16);
+        }, fpsRate);
 
 
         new Thread(new SendThread()).start();
@@ -121,7 +123,7 @@ public class Layout extends LayoutBase {
 
                                       }
                                   },
-                    0, 16);
+                    0, fpsRate);
 
 
         }

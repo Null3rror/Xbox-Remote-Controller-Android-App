@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.androidclient.configs.Constants.fpsRate;
+
 public class GunLayout extends LayoutBase {
 
     private Button btnY, btnX, btnB, btnA, btnStart, btnBack, btnLT, btnLB, btnRT, btnRB, sensorButton;
@@ -92,7 +94,7 @@ public class GunLayout extends LayoutBase {
                 leftJoystickValues.put("X", (int) (strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 leftJoystickValues.put("Y", (int) (strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        }, 16);
+        }, fpsRate);
 
         rightJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
@@ -100,7 +102,7 @@ public class GunLayout extends LayoutBase {
                 rightJoystickValues.put("X", (int) (strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 rightJoystickValues.put("Y", (int) (strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        }, 16);
+        }, fpsRate);
 
 
         new Thread(new SendThread()).start();
@@ -123,15 +125,14 @@ public class GunLayout extends LayoutBase {
                                                       data.put("right_X", rightJoystickValues.get("X"));
                                                       data.put("right_Y", rightJoystickValues.get("Y"));
 
+
                                                   } catch (JSONException e) {
                                                       e.printStackTrace();
                                                   }
                                                   connection.send(data.toString());
-//                                          number = 0;
-
                                               }
                                           },
-                    0, 16);
+                    0, fpsRate);
 
 
         }
