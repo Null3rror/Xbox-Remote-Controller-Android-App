@@ -74,7 +74,7 @@ public class MinimalLayout extends LayoutBase {
                 leftJoystickValues.put("X", (int) (strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 leftJoystickValues.put("Y", (int) (strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        }, fpsRate);
+        }, Constants.fpsRate);
 
 
         rightJoystick.setOnMoveListener(new JoystickView.OnMoveListener() {
@@ -83,7 +83,7 @@ public class MinimalLayout extends LayoutBase {
                 rightJoystickValues.put("X", (int) (strength * Math.cos(angle) * Constants.JOYSTICK_RANGE_NUM));
                 rightJoystickValues.put("Y", (int) (strength * Math.sin(angle) * Constants.JOYSTICK_RANGE_NUM));
             }
-        }, fpsRate);
+        }, Constants.fpsRate);
 
 
         new Thread(new SendThread()).start();
@@ -113,7 +113,7 @@ public class MinimalLayout extends LayoutBase {
 
                                       }
                                   },
-                    0, fpsRate);
+                    0, Constants.fpsRate);
 
 
         }
