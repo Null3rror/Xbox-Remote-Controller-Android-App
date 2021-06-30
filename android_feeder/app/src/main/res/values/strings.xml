@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">XboxRemoteController</string>
     <string name="IP">192.168.1.4</string>
-    <string name="Port">6969</string>
+    <string name="Port">6970</string>
 </resources>
