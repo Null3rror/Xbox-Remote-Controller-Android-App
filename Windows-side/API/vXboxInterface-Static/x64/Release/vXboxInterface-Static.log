@@ -1,0 +1,5 @@
+﻿  stdafx.cpp
+  vXboxInterface.cpp
+  Generating Code...
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\corecrt_memcpy_s.h(54): error C4789: buffer 'buffer' of size 28 bytes will be overrun; 28 bytes will be written starting at offset 10
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt\corecrt_memcpy_s.h(54): error C4789: buffer 'buffer' of size 28 bytes will be overrun; 28 bytes will be written starting at offset 10
