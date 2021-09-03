@@ -6,4 +6,6 @@ You can use your Android device to play games as an XBox controller, up to 4 pla
 - Connect your Android device(s) & Windows PC to the same access point
 - Write down your local IP address for the Android app, you can use ```ipconfig``` in command line 
 - Run Windows-app/Run.exe, make sure the firewall isn't blocking it
-- Enjoy
+- Enjoy!
+
+If you want the windows side main code, look in Windows-side/Test/Test.cpp
