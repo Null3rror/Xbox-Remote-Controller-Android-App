@@ -1,5 +1,11 @@
 # XBox Remote Controller 
-![alt text](https://github.com/Null3rror/Xbox-Remote-Controller-Android-App/blob/master/xboxRemoteController.png)
+
+
+## Youtube
+Click on the below video for more info on usage.<br>
+[![alt text](https://github.com/Null3rror/Xbox-Remote-Controller-Android-App/blob/master/xboxRemoteController.png)](https://www.youtube.com/watch?v=oSfGxNJHPPM&feature=youtu.be)
+
+
 
 You can use your Android device to play games as an XBox controller, up to 4 players.
 
